@@ -1,7 +1,7 @@
 import java.sql.Date;
+import java.util.Scanner;
 
-public class Animals
-{
+public class Animals {
     private int animalId;
     private String microchipNumber;
     private String name;
@@ -23,23 +23,84 @@ public class Animals
     private String description;
     private Boolean special_needs;
 
+    static Scanner sc = new Scanner(System.in);
+    Animals[] animalsArray = new Animals[10000];
+
     public static boolean registerAnimal(Animals animals) {
+        return false;
+    }
+
+    public static void searchAnimal(Animals[] animalsArray, String name) {
+        for (int i = 0; i < animalsArray.length; i++) {
+            if (animalsArray[i] != null) {
+                if (animalsArray[i].equals(name)) {
+                    System.out.println(animalsArray[i].getName());
+                }
+            }
+        }
+    }
+
+    public static Object updateAnimal(Animals animals, String name, double weight, Animals[] animalsArray) {
+        for (int i = 0; i < animalsArray.length; i++) {
+
+            if (animalsArray[i].equals(name)) {
+                weight = sc.nextDouble();
+            } else {
+                return null;
+            }
+        }
         return true;
     }
 
-    public static void searchAnimal() {
+    public static boolean changeAnimalStatus(Animals animals, int status_id) {
+
+        for (int i = 0; i <= animals.status_id; i++) {
+            return !animals.equals(false);
+        }
+        return true;
     }
 
-    public static void updateAnimal() {
+    public static String getAnimalById(String[] animalsArray, String animalId) {
+
+        for (int i = 0; i < animalsArray.length; i++) {
+            if (!animalsArray[i].contains(animalId)) {
+                return null;
+            }
+            return animalId;
+        }
+        return animalId;
     }
 
-    public static void changeAnimalStatus() {
+    public static int countAnimals(Animals animals) {
+        return 0;
     }
 
-    public static void getAnimalById() {
+    public static int countSterilizedAnimals(Animals animals) {
+        return 0;
     }
 
-    public static void getAllAnimals() {
+    public static void indHeaviestAnimal(Animals animals) {
+    }
+
+    public static int countAnimalsBySpecies(Animals animals) {
+        return 0;
+    }
+
+    public static double calculateAverageWeight(Animals animals) {
+        return 0;
+    }
+
+    public static Animals getAllAnimals(Animals[] animals) {
+        for (int i = 0; i <= animals.length; i++) {
+            if (animals[i] != null) {
+                return animals[i];
+            } else {
+                System.out.println("Δεν υπάρχουν διαθέσιμες καταγραφές...!");
+            }
+        }
+
+        return getAllAnimals(animals);
+
     }
 
     public Animals() {

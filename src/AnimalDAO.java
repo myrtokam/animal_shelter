@@ -13,7 +13,6 @@ public class AnimalDAO {
     public AnimalDAO() {
 
     }
-
     public boolean registerAnimal(Animals animal) throws SQLException {
 
         Connection dbConnection = databaseConnection.getConnection();
