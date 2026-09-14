@@ -1,4 +1,3 @@
-
 import java.util.Date;
 
 public class MedicalRecords {
@@ -105,5 +104,6 @@ public class MedicalRecords {
 
     public static void MedicalHistoryPerAnimal() {
     }
+
 }
 
