@@ -19,8 +19,18 @@ public class Animals {
     private Date found_date;
     private Date death_date;
     private Date created_at;
-    private Date updated_at;
+    private Date updated_at; 
     private String description;
+    private String AnimalStatus;
+
+    public static void searchAnimal(Animals[] animalsArray, String name) {
+        for (int i = 0; i < animalsArray.length; i++) {
+
+            if (animalsArray[i].getName().equals(name)) {
+                System.out.println(animalsArray[i]);
+            }
+        }
+    }
     private Boolean special_needs;
 
     static Scanner sc = new Scanner(System.in);
@@ -30,34 +40,33 @@ public class Animals {
         return false;
     }
 
-    public static void searchAnimal(Animals[] animalsArray, String name) {
+    public static boolean updateAnimal(double weight, String name, Animals[] animalsArray) {
+
         for (int i = 0; i < animalsArray.length; i++) {
+
             if (animalsArray[i] != null) {
-                if (animalsArray[i].equals(name)) {
-                    System.out.println(animalsArray[i].getName());
+                if (animalsArray[i].getName().equals(name)) {
+                    animalsArray[i].setWeight(weight);
+                    return true;
                 }
             }
         }
-    }
-
-    public static Object updateAnimal(Animals animals, String name, double weight, Animals[] animalsArray) {
-        for (int i = 0; i < animalsArray.length; i++) {
-
-            if (animalsArray[i].equals(name)) {
-                weight = sc.nextDouble();
-            } else {
-                return null;
-            }
-        }
-        return true;
+        return false;
     }
 
     public static boolean changeAnimalStatus(Animals animals, int status_id) {
 
-        for (int i = 0; i <= animals.status_id; i++) {
-            return !animals.equals(false);
+        if (status_id >= 1 && status_id <= 31) {
+            animals.setStatus_id(status_id);
+            return true;
+
+        } else {
+            return false;
         }
-        return true;
+    }
+
+    public String getAnimalStatus() {
+        return AnimalStatus;
     }
 
     public static String getAnimalById(String[] animalsArray, String animalId) {
@@ -288,5 +297,4 @@ public class Animals {
         this.description = description;
         this.special_needs = special_needs;
     }
-
 }
