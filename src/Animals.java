@@ -69,18 +69,15 @@ public class Animals {
         return AnimalStatus;
     }
 
-    public static String getAnimalById(String[] animalsArray, String animalId) {
+    public static int countAnimals(Animals animals, int speciesId) {
+        if (Animals.getAllAnimals(Animals[]Animals)
 
-        for (int i = 0; i < animalsArray.length; i++) {
-            if (!animalsArray[i].contains(animalId)) {
-                return null;
-            }
-            return animalId;
+        {
+
         }
-        return animalId;
     }
 
-    public static int countAnimals(Animals animals) {
+    public static int countAnimalsBySpecies() {
         return 0;
     }
 
@@ -91,8 +88,15 @@ public class Animals {
     public static void indHeaviestAnimal(Animals animals) {
     }
 
-    public static int countAnimalsBySpecies(Animals animals) {
-        return 0;
+    public String getAnimalById(String[] animalsArray, String animalId) {
+
+        for (int i = 0; i < animalsArray.length; i++) {
+            if (!animalsArray[i].contains(animalId)) {
+                return null;
+            }
+            return animalId;
+        }
+        return animalId;
     }
 
     public static double calculateAverageWeight(Animals animals) {
