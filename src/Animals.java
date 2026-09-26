@@ -1,5 +1,4 @@
 import java.sql.Date;
-import java.util.Scanner;
 
 public class Animals {
     private int animalId;
@@ -34,6 +33,8 @@ public class Animals {
     private Date updated_at; 
     private String description;
     private String AnimalStatus;
+    Animals[] animalsArray = {};
+    private Boolean special_needs;
 
     public static int countAnimalsBySpecies(Animals[] animals, int speciesId) {
         int countSpeecedId = 0;
@@ -66,25 +67,27 @@ public class Animals {
         return countHeaviestAnimal;
     }
 
-    public boolean isSterilizedAnimal() {
-        return SterilizedAnimal;
+    public static String searchAnimal(Animals animals, String name) {
+
+        if (animals.getName().equals(name)) {
+            return name;
+        }
+        return null;
     }
 
-    public static void searchAnimal(Animals[] animalsArray, String name) {
-        for (int i = 0; i < animalsArray.length; i++) {
+    public static boolean registerAnimal(Animals animals, Animals[] animalsArray) {
 
-            if (animalsArray[i].getName().equals(name)) {
-                System.out.println(animalsArray[i]);
+        for (int i = 0; i < animalsArray.length; i++) {
+            if (animalsArray[i] == null) {
+                animalsArray[i] = animals;
+                return true;
             }
         }
-    }
-    private Boolean special_needs;
-
-    static Scanner sc = new Scanner(System.in);
-    Animals[] animalsArray = new Animals[10000];
-
-    public static boolean registerAnimal(Animals animals) {
         return false;
+    }
+
+    public boolean isSterilizedAnimal(Animals animals) {
+        return animals.isSterilized();
     }
 
     public static boolean updateAnimal(double weight, String name, Animals[] animalsArray) {
