@@ -14,6 +14,92 @@ public class MedicalCondition {
     private LocalDateTime updateAt;
     private String status;
     private String notes;
+    Animals[] animals = new Animals[100000000];
+    private String newNotes;
+    private MedicalCondition[] medicalCondition = new MedicalCondition[100000000];
+
+    public MedicalCondition(MedicalCondition[] medicalCondition) {
+        this.medicalCondition = medicalCondition;
+    }
+
+    public static boolean createMedicalCondition(MedicalCondition[] medicalCondition, Animals[] animals, MedicalCondition conditionName) {
+        //Δημιουργεί μια νέα καταχώριση πάθησης
+
+        boolean animalExist = false;
+        for (int i = 0; i < animals.length; i++) {
+            if (animals[i].getAnimalId() == medicalCondition[i].getAnimalId()) {
+                animalExist = true;
+                break;
+
+            }
+        }
+        if (!animalExist) {
+            return false;
+        }
+
+        for (int j = 0; j < medicalCondition.length; j++) {
+
+
+            if (medicalCondition[j] == null) {
+                medicalCondition[j] = conditionName;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean findMedicalCondition(MedicalCondition medicalCondition, MedicalCondition[] medicalConditions, Animals animal, Animals[] animals) {
+        //Αναζητά μια πάθηση με βάση το conditionId
+        for (int j = 0; j < animals.length; j++) {
+            if (animal == null) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animal.getAnimalId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static MedicalCondition[] getMedicalConditionsByAnimal(MedicalCondition[] medicalConditions, Animals animal) {
+        //	Επιστρέφει όλες τις παθήσεις ενός ζώου
+        int count = 0;
+        MedicalCondition[] medicalCondition1 = new MedicalCondition[count];
+
+        int counter = 0;
+
+        // Δεύτερο for: Αποθηκεύουμε τις παθήσεις
+        for (int i = 0; i < medicalConditions.length; i++) {
+
+            if (medicalConditions[i] != null &&
+                    medicalConditions[i].getAnimalId() == animal.getAnimalId()) {
+
+                medicalCondition1[counter] = medicalConditions[i];
+                counter++;
+            }
+    }
+
+        return medicalCondition1;
+    }
+
+    public static String updateMedicalCondition(MedicalCondition[] medicalConditions, String value, MedicalCondition medicalCondition, Animals animals) {
+        //Ενημερώνει τα στοιχεία μιας πάθησης
+
+        for (int i = 0; i < medicalConditions.length; i++) {
+
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animals.getAnimalId()) {
+
+                medicalConditions[i].setStatus(value);
+                medicalConditions[i].setUpdateAt(LocalDateTime.now());
+                return value;
+            }
+        }
+
+        return null;
+    }
 
     public MedicalCondition(int conditionID, String conditionName, String description, boolean chronic, int animalId, LocalDate diagnosisDate, LocalDateTime createdAt, LocalDateTime updateAt, String status, String notes) {
         this.conditionID = conditionID;
@@ -113,95 +199,155 @@ public class MedicalCondition {
 
     /*METHODS*/
 
-    public void createMedicalCondition() {
+    public MedicalCondition[] getMedicalCondition() {
+        return medicalCondition;
     }
 
-    //Δημιουργεί μια νέα καταχώριση πάθησης
-
-    public void findMedicalCondition() {
+    public void setMedicalCondition(MedicalCondition[] medicalCondition) {
+        this.medicalCondition = medicalCondition;
     }
 
-    //Αναζητά μια πάθηση με βάση το conditionId
-
-    public void getMedicalConditionsByAnimal() {
+    public String getNewNotes() {
+        return newNotes;
     }
 
-    //	Επιστρέφει όλες τις παθήσεις ενός ζώου
-
-    public void updateMedicalCondition() {
+    public void setNewNotes(String newNotes) {
+        this.newNotes = newNotes;
     }
 
-    //Ενημερώνει τα στοιχεία μιας πάθησης
+    public int countMedicalConditions(MedicalCondition[] medicalConditions, MedicalCondition medicalCondition, Animals animal) {
+        //	Μετρά τις συνολικές καταχωρίσεις παθήσεων
+        int count = 0;
+        for (int i = 0; i < medicalConditions.length; i++) {
 
-
-    public void countMedicalConditions() {
+            if (medicalConditions[i] != null) {
+                count++;
+            }
+        }
+        return count;
     }
 
-    //	Μετρά τις συνολικές καταχωρίσεις παθήσεων
-
-
-    public void countChronicConditions() {
+    public boolean hasChronicCondition(MedicalCondition[] medicalConditions, MedicalCondition medicalCondition, Animals animal) {
+        //Ελέγχει αν ένα συγκεκριμένο ζώο έχει χρόνια πάθηση
+        boolean isVChronic = false;
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animal.getAnimalId() &&
+                    medicalConditions[i].isChronic()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    //Μετρά τις χρόνιες παθήσεις
-
-
-    public void hasChronicCondition() {
+    public void closeMedicalCondition(Animals animals, MedicalCondition[] medicalConditions, MedicalCondition medicalCondition) {
+        //	Σημειώνει ότι μια πάθηση έχει θεραπευτεί ή δεν είναι πλέον ενεργή
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animals.getAnimalId()) {
+                if (medicalConditions[i].getStatus().equals("ACTIVE")) {
+                    medicalConditions[i].setStatus("RESOLVED");
+                    return;
+                }
+            }
+        }
     }
 
-    //Ελέγχει αν ένα συγκεκριμένο ζώο έχει χρόνια πάθηση
-
-
-    public void closeMedicalCondition() {
-    }
-
-    //	Σημειώνει ότι μια πάθηση έχει θεραπευτεί ή δεν είναι πλέον ενεργή
-
-
-    public void getActiveConditionsByAnimal() {
-    }
-
+    public boolean getActiveConditionsByAnimal(MedicalCondition[] medicalConditions, MedicalCondition medicalCondition, Animals animals) {
     //Εμφανίζει τις ενεργές παθήσεις ενός ζώου.
-
-
-    public void getChronicConditionsByAnimal() {
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animals.getAnimalId()) {
+                if (medicalConditions[i].getStatus().equals("ACTIVE")) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    //Εμφανίζει τις χρόνιες παθήσεις ενός ζώου.
-
-
-    public void updateConditionStatus() {
+    public boolean getChronicConditionsByAnimal(MedicalCondition[] medicalConditions, MedicalCondition medicalCondition, Animals animals) {
+        //Εμφανίζει τις χρόνιες παθήσεις ενός ζώου.
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animals.getAnimalId()) {
+                if (medicalConditions[i].isChronic()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    //Αλλάζει την κατάσταση μιας πάθησης (Active, Resolved).
-
-
-    public void updateDiagnosisDate() {
+    public void updateConditionStatus(MedicalCondition[] medicalConditions, MedicalCondition medicalCondition, Animals animals) {
+        //Αλλάζει την <κατάσταση μιας πάθησης (Active, Resolved).
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animals.getAnimalId() && medicalConditions[i].getConditionID() == medicalCondition.getConditionID()) {
+                if (medicalConditions[i].getStatus().equals("ACTIVE")) {
+                    medicalConditions[i].setStatus("COMPLETE");
+                }
+            }
+        }
     }
 
+    public void updateDiagnosisDate(MedicalCondition medicalCondition, MedicalCondition[] medicalConditions, Animals animal) {
     //Διορθώνει την ημερομηνία διάγνωσης.
-
-
-    public void addConditionNotes() {
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animal.getAnimalId() && medicalConditions[i].getConditionID() == medicalCondition.getConditionID()) {
+                if (medicalConditions[i].getDiagnosisDate() == null) {
+                    medicalConditions[i].setDiagnosisDate(LocalDate.of(2026, 11, 11));
+                }
+            }
+        }
     }
 
-    //Προσθέτει παρατηρήσεις για την πάθηση.
-
-
-    public void countConditionsByAnimal() {
+    public void addConditionNotes(MedicalCondition[] medicalConditions, MedicalCondition medicalCondition, String newNotes, Animals animals) {
+        //Προσθέτει παρατηρήσεις για την πάθηση.
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animals.getAnimalId() && medicalConditions[i].getConditionID() == medicalCondition.getConditionID()) {
+                if (medicalConditions[i].getNotes() != null) {
+                    medicalConditions[i].setNotes(medicalCondition.getNotes() + "\n" + newNotes);
+                } else {
+                    medicalConditions[i].setNotes(newNotes);
+                    return;
+                }
+            }
+        }
     }
 
-    //Μετρά πόσες παθήσεις έχουν καταγραφεί για ένα ζώο.
+    public int countConditionsByAnimal(MedicalCondition medicalCondition, MedicalCondition[] medicalConditions, Animals animals) {
+        //Μετρά πόσες παθήσεις έχουν καταγραφεί για ένα ζώο.
+        int count = 0;
 
-
-    public void countAnimalsWithCondition() {
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getAnimalId() == animals.getAnimalId()) {
+                count++;
+            }
+        }
+        return count;
     }
 
-    //Μετρά πόσα ζώα έχουν μια συγκεκριμένη πάθηση.
+    public int countAnimalsWithCondition(MedicalCondition[] medicalConditions, MedicalCondition medicalCondition, Animals animals) {
+        //Μετρά πόσα ζώα έχουν μια συγκεκριμένη πάθηση.
+        int count = 0;
 
+        for (int i = 0; i < medicalConditions.length; i++) {
 
-    public void getConditionsByDiagnosisDate() {
+            if (medicalConditions[i] != null
+                    && medicalCondition.getMedicalCondition().equals(
+                    medicalConditions[i].getMedicalCondition())) {
+                count++;
+            }
+        }
+        return count;
     }
 
-    //Αναζητά παθήσεις βάσει ημερομηνίας διάγνωσης.
+    public String getConditionsByDiagnosisDate(MedicalCondition[] medicalConditions, MedicalCondition medicalCondition, Animals animals) {
+        //Αναζητά παθήσεις βάσει ημερομηνίας διάγνωσης.
+        for (int i = 0; i < medicalConditions.length; i++) {
+            if (medicalConditions[i] != null && medicalConditions[i].getDiagnosisDate() != null) {
+                if (medicalConditions[i].getDiagnosisDate().equals(medicalCondition.getDiagnosisDate())) {
+                    return medicalConditions[i].getConditionName();
+                }
+            }
+            return null;
+        }
+        return "";
+    }
 }
