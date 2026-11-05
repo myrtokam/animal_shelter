@@ -24,29 +24,71 @@ public class Allergy {
         this.notes = notes;
     }
 
-    public static boolean registerAllergy(Allergy[] registerAllergy, Allergy alergy) {//Καταχωρίζει νέα αλλεργία
-
+    public static boolean registerAllergy(Allergy[] registerAllergy, Allergy alergies) {//Καταχωρίζει νέα αλλεργία
+        for (int i = 0; i < registerAllergy.length; i++) {
+            if (registerAllergy[i] != null) {
+                registerAllergy[i] = alergies;
+                return true;
+            }
+        }
         return false;
     }
 
     public static Allergy findAllergyById(Allergy[] registerAllergy, int allergyId, Allergy allergy) {/*Allergy	Αναζητά αλλεργία με το ID της*/
+        for (int i = 0; i < registerAllergy.length; i++) {
+            if (registerAllergy[i] != null && registerAllergy[i].getAllergyId() == allergyId) {
+                return registerAllergy[i];
+            }
+        }
+
         return allergy;
     }
 
-    public static List getAllergiesByAnimal() {/* ArrayList<Allergy> Επιστρέφει όλες τις αλλεργίες ενός ζώου*/
+    public static List<Allergy> getAllergiesByAnimal(Allergy[] registerAllergy, Animals animals, Allergy allergy) {/* ArrayList<Allergy> Επιστρέφει όλες τις αλλεργίες ενός ζώου*/
         List<Allergy> allergies = new ArrayList<>();
+
+
+        for (int i = 0; i < registerAllergy.length; i++) {
+            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
+                allergies.add(registerAllergy[i]);
+            }
+        }
         return allergies;
     }
 
-    public static boolean updateAllergy() {/*  Ενημερώνει στοιχεία αλλεργίας*/
+    public static boolean updateAllergy(Allergy[] registerAllergy, int id, String newValue, Animals animals, Allergy allergy) {/*  Ενημερώνει στοιχεία αλλεργίας*/
+
+        for (int i = 0; i < registerAllergy.length; i++) {
+            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
+                registerAllergy[i].setAllergyId(id);
+            }
+            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
+                registerAllergy[i].setAllergen(newValue);
+            }
+            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
+                registerAllergy[i].setReaction(newValue);
+            }
+            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
+                registerAllergy[i].setDiagnosisDate(LocalDate.of(2026, 11, 11));
+            }
+            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
+                registerAllergy[i].setNotes(newValue);
+            }
+            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
+                registerAllergy[i].setSeverity(newValue);
+            }
+            return true;
+        }
         return false;
     }
 
-    public static boolean removeAllergy() {/*Αφαιρεί λανθασμένη καταχώριση*/
-        return false;
-    }
 
-    public static int countAllergiesByAnimal() {/*Μετρά τις αλλεργίες συγκεκριμένου ζώου*/
+    public static int countAllergiesByAnimal(Allergy[] registerAllergy, int id, String newValue, Animals animals, Allergy allergy) {/*Μετρά τις αλλεργίες συγκεκριμένου ζώου*/
+        int count = 0;
+        for (int i = 0; i < registerAllergy.length; i++) {
+            if (registerAllergy[i] != null) {
+            }
+        }
         return 0;
     }
 
