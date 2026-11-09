@@ -1,5 +1,5 @@
 public class MedicalRecordsDAO {
-    private DatabaseConnection databaseConnection;
+    private final DatabaseConnection databaseConnection;
 
     public MedicalRecordsDAO(DatabaseConnection databaseConnection) {
         this.databaseConnection = databaseConnection;
