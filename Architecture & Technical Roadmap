@@ -1,0 +1,245 @@
+ Animal Care Management Platform, Architecture & Technical Roadmap
+
+> Status:
+Proposed target architecture / evolving design document. This document describes the intended system,
+not a claim that all components are implemented.
+
+1. Purpose and scope
+
+The Animal Care Management Platform is a Java-based project intended to help animal shelters and rescue organizations manage animal records, health and welfare, adoption, people, and daily operations in one place. Future releases may support veterinary clinics, farms, breeders, and other animal-care organizations.
+
+Initial audience:** shelters and rescue groups. **Long-term direction:
+configurable, 
+multi-organization platform with appropriate access controls and data separation.
+
+2. Current project evidence vs. proposals
+
+### Visible in the supplied screenshots
+
+- IntelliJ IDEA Java project named `animal_shelter`, with files including `Animals.java`, `AnimalRegistration.java`, `AnimalDAO.java`, `MedicalRecords.java`, `MedicalRecordsDAO.java`, `MedicalCondition.java`, `Medication.java`, `Treatment.java`, `Appointment.java`, `Allergy.java`, `DatabaseConnection.java`, and `Main.java`.
+- A MySQL 8.4 database schema named `animal_care_platform`, containing numerous tables covering animals, medical care, adoption, volunteers, organizations, finances, inventory, facilities, breeding, events, security, and other areas.
+- Git/GitHub repository and a successful push visible in IntelliJ.
+
+Not established by screenshots:** the correctness of table relationships, the number of completed CRUD operations, 
+application-to-database connectivity, functional authentication, or whether individual modules are working.
+These must be verified in code and through tests.
+
+Design proposals in this document
+
+The layered backend, API, frontend, authorization strategy, domain modules, and rollout sequence below are **recommendations**, not confirmed existing features.
+
+3. Proposed high-level architecture
+
+
+Users: Shelter staff | Veterinarians | Volunteers | Administrators
+                         |
+                  Web browser
+                         |
+           HTML / CSS / Bootstrap UI
+                         |
+                 HTTPS / REST API
+                         |
+            Java backend (planned)
+         Controller / API endpoints
+                         |
+               Service layer
+          Validation + business rules
+                         |
+             Repository / DAO
+           JDBC / PreparedStatement
+                         |
+                MySQL database
+              animal_care_platform
+
+Cross-cutting concerns:
+Authentication | Authorization | Audit logs | Input validation
+Error handling | Monitoring | Backups | Data protection
+
+
+**Suggested web stack:** Java + Spring Boot for the future REST backend, Bootstrap for the UI, MySQL for persistence, and Maven or Gradle for dependency management. These are architectural options to decide on when the console MVP is stable. Bootstrap is a frontend toolkit, not a Java backend framework.
+
+4. Layer responsibilities
+
+| Layer | Responsibility | Proposed examples |
+|---|---|---|
+| Domain/model | Represents entities and their data | `Animal`, `MedicalRecord`, `Appointment` |
+| Repository/DAO | Executes database operations | `AnimalRepository`, `MedicalRecordRepository` |
+| Service | Enforces business rules and coordinates repositories | `AnimalService`, `AdoptionService` |
+| API/controller | Accepts HTTP requests and returns responses | `AnimalController`, `MedicalRecordController` |
+| Presentation | Forms, tables, dashboards | Bootstrap pages |
+| Security | Identity, access decisions, auditing | `AuthService`, permission checks, audit service |
+
+The current project uses names such as `Animals` and `MedicalRecords`. A later refactor to singular class names (`Animal`, `MedicalRecord`) would follow common Java conventions, but is **optional** and should not block the MVP.
+
+5. Domain modules and relevant database tables
+
+The table names below are **examples observed in screenshots**. Exact columns, foreign keys, constraints, and cardinalities require schema inspection.
+
+| Module | Intended responsibilities | Observed table examples |
+|---|---|---|
+| Animal registry | Identification, intake, profiles, status and history | `animals`, `animal_identifiers`, `animal_intakes`, `animal_status_history`, `animal_photos` |
+| Veterinary care | Visits, medical records, diagnoses, prescriptions, medication | `medical_records`, `medical_visits`, `medical_conditions`, `prescriptions`, `medications`, `vaccination_records` |
+| Daily welfare | Feeding, measurements, observations, special needs | `feeding_logs`, `feeding_plans`, `animal_measurements`, `daily_observations`, `animal_special_needs` |
+| Adoption & fostering | Applications, assessments, placements, follow-up | `adoption_applications`, `adoption_assessments`, `adoption_contracts`, `adoption_followups`, `foster_placements` |
+| People & organizations | Staff, volunteers, veterinarians, organization membership | `persons`, `organizations`, `employees`, `volunteers`, `veterinarians`, `user_organization_memberships` (name shown truncated; verify) |
+| Events & fundraising | Events, donations, sponsors, campaigns | `events`, `event_registrations`, `donations`, `donors`, `fundraising_campaigns`, `sponsors` |
+| Breeding & lifecycle | Breeding, pregnancy, birth, outcomes | `breeding_events`, `pregnancy_records`, `birth_events`, `offspring_records`, `animal_death_records` |
+| Facilities & inventory | Enclosures, supplies, stock, equipment | `enclosures`, `facilities`, `stock_movements`, `suppliers`, `inventory_counts` |
+| Security & governance | Users, roles, audit, privacy requests | `users`, `roles`, `permissions`, `role_permissions`, `audit_logs`, `privacy_requests`, `security_events` |
+
+Scope control:** a table's presence does not require an immediate Java class, DAO, API endpoint, or UI. Implement modules when there is a tested user workflow that needs them.
+
+6. Suggested Java package structure (future)
+
+src/main/java/com/animalcare/
+├── AnimalCareApplication.java
+├── animal/
+│   ├── Animal.java
+│   ├── AnimalRepository.java
+│   ├── AnimalService.java
+│   ├── AnimalController.java
+│   └── dto/
+│       ├── CreateAnimalRequest.java
+│       └── UpdateAnimalRequest.java
+├── medical/
+│   ├── MedicalRecord.java
+│   ├── MedicalRecordRepository.java
+│   └── MedicalRecordService.java
+├── adoption/
+│   ├── AdoptionApplication.java
+│   └── AdoptionService.java
+├── organization/
+│   ├── Organization.java
+│   └── OrganizationService.java
+├── identity/
+│   ├── User.java
+│   ├── Role.java
+│   └── AuthorizationService.java
+├── audit/
+│   └── AuditService.java
+└── common/
+    ├── DatabaseConfig.java
+    └── ErrorHandler.java
+
+
+This is a **target structure**, not a demand to create empty classes now. Keep the existing console structure while learning core Java and JDBC, then migrate incrementally.
+
+7. Core entity relationships — conceptual
+
+
+Organization 1 ---- * OrganizationMembership * ---- 1 User
+Organization 1 ---- * Animal (through custody/assignment)
+Animal       1 ---- * MedicalRecord
+Animal       1 ---- * MedicalVisit
+Animal       1 ---- * VaccinationRecord
+Animal       1 ---- * FeedingLog
+Animal       1 ---- * AdoptionApplication
+AdoptionApplication * ---- 1 Applicant/Person
+Organization 1 ---- * Event
+
+These relationships are **conceptual proposals**, not verified MySQL foreign-key definitions. An animal may move between organizations; a custody-history model may therefore be more accurate than a permanent single-organization field. Adoption and medical information should remain separate domain concepts even when linked to the same animal.
+
+8. Example workflows
+
+Animal registration (first MVP workflow)
+
+1. Authorized staff member submits animal details.
+2. Application validates required fields and formats.
+3. Service checks business rules (for example, duplicate microchip when provided).
+4. Repository inserts the record using a parameterized SQL statement.
+5. Database generates or confirms the animal ID.
+6. Application returns the created record or a clear error.
+7. An audit event is recorded when auditing is implemented.
+
+Medical visit (next workflow)
+
+1. Find the animal by internal ID or microchip.
+2. Record the visit date, veterinary professional, findings, and notes.
+3. Add diagnoses or treatment records as separate linked data.
+4. Restrict medical editing to authorized roles.
+5. Preserve history and log relevant changes.
+
+Adoption (later workflow)
+
+1. Register applicant and application.
+2. Evaluate suitability and document decisions.
+3. Record approval/rejection and contractual details.
+4. Update animal status through a controlled workflow.
+5. Schedule follow-up activities and retain traceability.
+
+9. Security architecture (planned, incremental)
+
+The project will be used to practice secure software development rather than adding security only at the end.
+
+First implementation priorities**
+
+- Use JDBC `PreparedStatement` with bound parameters; never concatenate untrusted input into SQL.
+- Validate and normalize input at application boundaries; use MySQL constraints as a second line of defense.
+- Keep database passwords and secrets out of source code, commits, screenshots, and the repository; use environment-based configuration.
+- Create a dedicated MySQL application account with minimum required privileges; do not run the application as `root`.
+- Handle exceptions without exposing database credentials or internal SQL details to end users.
+- Add tests for CRUD, invalid input, and authorization failures as those features are built.
+
+**Web application security priorities**
+
+- Secure login and session management; password hashing with a modern password-hashing algorithm (for example Argon2id or BCrypt).
+- Server-side RBAC for staff, vets, volunteers, and administrators; do not rely on hiding buttons in the UI.
+- Organization-scoped access checks on every relevant record and query to prevent cross-organization data exposure.
+- HTTPS in deployment; CSRF protection for cookie-authenticated state-changing requests; secure cookies; output encoding against XSS.
+- Audit logging for sensitive changes and access to restricted records, with appropriate log retention and access controls.
+- Data minimization, retention rules, backups and restore testing, and privacy workflows for personal data.
+- Dependency scanning, code review, security testing, and deployment hardening.
+
+Privacy note:** the platform may store personal data about adopters, employees, volunteers, donors, and veterinary professionals. GDPR-related obligations must be assessed based on actual processing, roles, and deployment context; naming a `privacy_requests` table does not establish compliance.
+
+10. Multi-organization design (future)
+
+A future release may support multiple independent organizations. Proposed design principles:
+
+- Organization membership is explicit, and a user may belong to more than one organization.
+- Roles are scoped to the organization where appropriate.
+- Queries and API operations enforce organization-level access on the server.
+- Custody and transfer history preserve an animal's movement between organizations.
+- Cross-organization collaboration is permissioned and auditable.
+- Automated tests attempt cross-tenant access to ensure isolation.
+
+**Important:** adding an `organization_id` column alone is not sufficient isolation. The complete authorization and query path must enforce scope.
+
+11. Development roadmap
+
+| Phase | Deliverable | Definition of done |
+|---|---|---|
+| 0 — Baseline | Inventory existing Java files and MySQL schema | Build runs, schema backed up, secrets excluded from Git |
+| 1 — Console MVP | Animal create, find, update, list; basic medical record | Demonstrable flows with validation and tests |
+| 2 — Database integration | JDBC DAOs for selected entities | CRUD persists in MySQL; parameterized queries and constraints tested |
+| 3 — Web MVP | Java backend + Bootstrap interface | Staff can complete core animal and medical workflows through browser |
+| 4 — Identity & security | Authentication, RBAC, audit and privacy controls | Negative authorization tests pass; security controls documented |
+| 5 — Shelter operations | Adoption, fostering, volunteers, events | End-to-end workflows implemented and tested |
+| 6 — Expansion | Multi-organization support and specialized modules | Isolation tested; additional modules driven by real requirements |
+
+Phases can overlap where security fundamentals are needed earlier. In particular, secrets management, least privilege, and SQL injection prevention start in Phase 0–2.
+
+12. Immediate next steps
+
+1. Export a schema-only SQL dump and keep a sanitized, reviewable version under version control (no production or personal data).
+2. Inspect `SHOW CREATE TABLE` for the core tables (`animals`, `medical_records`, `organizations`, `users`) and verify keys/relationships.
+3. Check current Java classes and DAOs for compilation, data types, and implemented methods.
+4. Choose a **single** vertical slice: register an animal, save it to MySQL, retrieve it by ID, and display it.
+5. Add small repeatable tests and update this document after each working milestone.
+6. Review `.gitignore` for IDE output, local configuration, credential files, and database dumps containing real data.
+
+13. Documentation conventions
+
+- Implemented:** tested, working in the repository.
+- In progress:** actively being built; not yet complete.
+- Planned:** design intent, subject to change.
+- Keep `README.md` for the public overview, `ARCHITECTURE.md` for system design, and optionally `ROADMAP.md` for milestone tracking.
+- Prefer architecture diagrams and code examples that match the current implementation; update them when code changes.
+
+---
+
+This document is a proposed architecture informed by screenshots of the current Java project and MySQL schema. 
+It should be validated against the actual source code and SQL DDL before being treated as an implementation specification.
+
+
+
