@@ -1,0 +1,44 @@
+Animal Care Management Platform
+
+Project Overview
+
+Animal Care Management Platform is an ongoing Java and MySQL software development project focused on supporting animal shelters and rescue organizations.
+
+The platform aims to centralize animal records, healthcare management, adoption processes, daily care activities, volunteer coordination, and organizational operations.
+
+The project is designed with future scalability in mind, with the long-term goal of supporting veterinary clinics, farms, breeders, and other animal care organizations.
+
+
+Technology Stack
+
+Current technologies
+
+- Java
+- MySQL
+- JDBC
+- Git & GitHub
+- IntelliJ IDEA
+
+Planned technologies and practices
+
+- HTML, CSS & Bootstrap
+- Java web backend framework
+- REST APIs
+- Secure Software Development
+- Authentication & Role-Based Access Control
+- Data Protection & Audit Logging
+- Security Testing
+
+
+Development Status
+
+
+Early Development — Work in Progress
+
+
+The project currently includes an extensive relational database schema and initial Java components.
+
+Development is focused on implementing core functionality and progressively integrating the database, web interface, and application security controls.
+
+
+Planned features are not yet considered fully implemented.
