@@ -1,3 +1,4 @@
+package Model;
 public class AnimalRegistration {
 
 
@@ -54,14 +55,14 @@ public class AnimalRegistration {
                 if (animals.getColor() != null) {
                     animal[i].setColor(animals.getColor());
                 }
-                if (animals.getSterilization_date() != null) {
+                if (animals.getSterilizationDate() != null) {
                     animal[i].setSterilized(animals.isSterilized());
                 }
                 if (animals.getMicrochipNumber() != null) {
                     animal[i].setMicrochipNumber(animals.getMicrochipNumber());
                 }
-                if (animals.getSpecial_needs() != null) {
-                    animal[i].setSpecial_needs(animals.getSpecial_needs());
+                if (animals.getSpecialNeedsSummary() != null) {
+                    animal[i].setSpecialNeedsSummary(animals.getSpecialNeedsSummary());
                 }
                 if (animals.getDescription() != null) {
                     animal[i].setDescription(animals.getDescription());

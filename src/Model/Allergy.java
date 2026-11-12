@@ -1,3 +1,4 @@
+package Model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Allergy {
 
     public static boolean registerAllergy(Allergy[] registerAllergy, Allergy alergies) {//Καταχωρίζει νέα αλλεργία
         for (int i = 0; i < registerAllergy.length; i++) {
-            if (registerAllergy[i] != null) {
+            if (registerAllergy[i] == null) {
                 registerAllergy[i] = alergies;
                 return true;
             }
@@ -34,16 +35,17 @@ public class Allergy {
         return false;
     }
 
-    public static Allergy findAllergyById(Allergy[] registerAllergy, int allergyId, Allergy allergy) {/*Allergy	Αναζητά αλλεργία με το ID της*/
-        for (int i = 0; i < registerAllergy.length; i++) {
-            if (registerAllergy[i] != null && registerAllergy[i].getAllergyId() == allergyId) {
-                return registerAllergy[i];
+    public static Allergy findAllergyById(Allergy[] allergies, int allergyId) {
+
+        for (int i = 0; i < allergies.length; i++) {
+            if (allergies[i] != null &&
+                    allergies[i].getAllergyId() == allergyId) {
+                return allergies[i];
             }
         }
 
-        return allergy;
+        return null;
     }
-
     public static List<Allergy> getAllergiesByAnimal(Allergy[] registerAllergy, Animals animals, Allergy allergy) {/* ArrayList<Allergy> Επιστρέφει όλες τις αλλεργίες ενός ζώου*/
         List<Allergy> allergies = new ArrayList<>();
 
@@ -56,30 +58,20 @@ public class Allergy {
         return allergies;
     }
 
-    public static boolean updateAllergy(Allergy[] registerAllergy, int id, String newValue, Animals animals, Allergy allergy) {/*  Ενημερώνει στοιχεία αλλεργίας*/
+    public static int countAllergiesByAnimal(Allergy[] allergies, int animalId) {
 
-        for (int i = 0; i < registerAllergy.length; i++) {
-            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
-                registerAllergy[i].setAllergyId(id);
+        int count = 0;
+
+        for (int i = 0; i < allergies.length; i++) {
+
+            if (allergies[i] != null &&
+                    allergies[i].getAnimalId() == animalId) {
+
+                count++;
             }
-            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
-                registerAllergy[i].setAllergen(newValue);
-            }
-            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
-                registerAllergy[i].setReaction(newValue);
-            }
-            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
-                registerAllergy[i].setDiagnosisDate(LocalDate.of(2026, 11, 11));
-            }
-            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
-                registerAllergy[i].setNotes(newValue);
-            }
-            if (registerAllergy[i] != null && registerAllergy[i].getAnimalId() == animals.getAnimalId()) {
-                registerAllergy[i].setSeverity(newValue);
-            }
-            return true;
         }
-        return false;
+
+        return count;
     }
 
 
@@ -119,7 +111,6 @@ public class Allergy {
     public String getReaction() {
         return reaction;
     }
-
     public void setReaction(String reaction) {
         this.reaction = reaction;
     }
