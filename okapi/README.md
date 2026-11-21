@@ -4,7 +4,10 @@ A lightweight browser-based frontend prototype for the OKAPI animal care project
 
 ## Run it
 
-Open `index.html` in a browser. No build step or package installation is required.
+Open `index.html` in a browser for the public website (Home, About us, contact form). The dashboard prototype is
+`app.html`. No build step or package installation is required.
+
+Before publishing, set `CONTACT_EMAIL` and `LINKEDIN_URL` at the top of `site.js`.
 
 ## Current scope
 
