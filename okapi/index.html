@@ -39,6 +39,7 @@
             <li><a href="about.html">About us</a></li>
             <li><a href="index.html#solutions">Solutions</a></li>
             <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#modules">Modules</a></li>
             <li><a href="index.html#contact">Contact</a></li>
             <li><a class="btn btn-primary btn-sm" href="app.html">Open the demo</a></li>
         </ul>
@@ -52,8 +53,10 @@
             <div>
                 <span class="eyebrow">Animal care platform</span>
                 <h1>Every animal deserves <em>better care.</em> Every team deserves better tools.</h1>
-                <p class="lead">OKAPI brings health records, daily care and organisation into one place — for shelters,
-                    veterinary clinics, farms and wildlife organisations.</p>
+                <p class="lead">OKAPI follows an animal’s life in your care, from the day it arrives to the day it
+                    leaves, and runs the organisation around it: facilities, people, finances and outreach. For
+                    shelters, vets, animal hospitals, farms and livestock units, zoos, volunteer groups and wildlife
+                    organisations.</p>
                 <div class="hero-actions">
                     <a class="btn btn-primary" href="app.html">Try the demo</a>
                     <a class="btn btn-ghost" href="about.html">Our story</a>
@@ -104,24 +107,26 @@
                 <p class="lead">One platform, shaped around how different organisations actually work.</p>
             </div>
             <div class="cards">
-                <article class="card reveal"><img alt="" loading="lazy" src="images/boy-kitten.jpg"
-                                                  style="object-position:50% 35%">
+                <article class="card reveal"><img alt="" loading="lazy" src="images/girl-kitten-bw.jpg"
+                                                  style="object-position:50% 30%">
                     <div><h3>Shelters &amp; rescues</h3>
                         <p>Intake, health checks, vaccinations and adoption readiness for every animal in your care.</p>
                     </div>
                 </article>
-                <article class="card reveal"><img alt="" loading="lazy" src="images/goats-barn.jpg">
-                    <div><h3>Farms &amp; breeders</h3>
-                        <p>Follow each animal’s journey from birth to sale or retirement, with a clear health
-                            record.</p></div>
+                <article class="card reveal"><img alt="" loading="lazy" src="images/chickens.jpg"
+                                                  style="object-position:50% 70%">
+                    <div><h3>Farms &amp; livestock units</h3>
+                        <p>Follow each animal from birth to sale or retirement, with health, feed and production costs
+                            in one place.</p></div>
                 </article>
-                <article class="card reveal"><img alt="" loading="lazy" src="images/wildlife.jpg">
+                <article class="card reveal"><img alt="" loading="lazy" src="images/deer.jpg"
+                                                  style="object-position:50% 55%">
                     <div><h3>Zoos &amp; wildlife</h3>
                         <p>Keep welfare observations and treatments consistent across keepers, vets and shifts.</p>
                     </div>
                 </article>
-                <article class="card reveal"><img alt="" loading="lazy" src="images/calf.jpg"
-                                                  style="object-position:50% 40%">
+                <article class="card reveal"><img alt="" loading="lazy" src="images/girl-bunny.jpg"
+                                                  style="object-position:50% 60%">
                     <div><h3>Veterinary clinics</h3>
                         <p>Medical history, follow-ups and appointments connected, so nothing slips between visits.</p>
                     </div>
@@ -132,7 +137,7 @@
                         <p>Long-term care plans, feeding notes and routine treatments that every carer can see.</p>
                     </div>
                 </article>
-                <article class="card reveal"><img alt="" loading="lazy" src="images/woman-lamb.jpg"
+                <article class="card reveal"><img alt="" loading="lazy" src="images/woman-sheep.jpg"
                                                   style="object-position:50% 30%">
                     <div><h3>Volunteer groups</h3>
                         <p>Share the essentials with the people helping on the ground, without sharing everything.</p>
@@ -142,46 +147,261 @@
         </div>
     </section>
 
-    <!-- FEATURES -->
+    <!-- LIFECYCLE -->
     <section class="section section-cream" id="features">
         <div class="wrap">
             <div class="section-head reveal">
-                <span class="eyebrow">Features &amp; roadmap</span>
-                <h2>Start with health. Grow from there.</h2>
-                <p class="lead">We build one module at a time and say clearly what is ready and what is not.</p>
+                <span class="eyebrow">The animal’s journey</span>
+                <h2>One journey, told in your own terms</h2>
+                <p class="lead">Every animal has a timeline, from arrival to departure. OKAPI keeps it in one place,
+                    whoever is on shift. Choose your type of organisation to see what that looks like for you.</p>
             </div>
-            <div class="features">
-                <article class="feature reveal"><span class="tag live">In prototype</span>
-                    <h3>Animal profiles</h3>
-                    <p>Species, breed, microchip, intake date and care status for every animal.</p></article>
-                <article class="feature reveal"><span class="tag live">In prototype</span>
-                    <h3>Medical records</h3>
-                    <p>Clinical notes, treatments, vaccinations and follow-ups in a searchable history.</p></article>
-                <article class="feature reveal"><span class="tag live">In prototype</span>
-                    <h3>Appointments</h3>
-                    <p>A shared schedule for vet visits, checks and treatments.</p></article>
-                <article class="feature reveal"><span class="tag next">Planned</span>
-                    <h3>Roles &amp; teams</h3>
-                    <p>Admins, vets and volunteers see what they need — and only that.</p></article>
-                <article class="feature reveal"><span class="tag next">Planned</span>
-                    <h3>Care &amp; welfare</h3>
-                    <p>Food, exercise and living conditions tracked alongside health.</p></article>
-                <article class="feature reveal"><span class="tag later">Later</span>
-                    <h3>Operations</h3>
-                    <p>Stock, orders, expenses, staff and volunteers in the same workspace.</p></article>
-                <article class="feature reveal"><span class="tag later">Later</span>
-                    <h3>Insights</h3>
-                    <p>Patterns across your data to help you plan ahead and spot problems early.</p></article>
-                <article class="feature reveal"><span class="tag later">Later</span>
-                    <h3>Outreach</h3>
-                    <p>Adoption profiles, campaigns and merchandise for your cause.</p></article>
-                <article class="feature reveal"><span class="tag later">Later</span>
-                    <h3>Modular plans</h3>
-                    <p>Choose only the modules your organisation needs, and add more as you grow.</p></article>
+            <div aria-label="Type of organisation" class="tabs reveal" role="tablist">
+                <button aria-controls="panel-shelters" aria-selected="true" class="tab is-active" id="tab-shelters"
+                        role="tab" tabindex="0">Shelters &amp; rescues
+                </button>
+                <button aria-controls="panel-clinics" aria-selected="false" class="tab" id="tab-clinics" role="tab"
+                        tabindex="-1">Vets &amp; animal hospitals
+                </button>
+                <button aria-controls="panel-farms" aria-selected="false" class="tab" id="tab-farms" role="tab"
+                        tabindex="-1">Farms &amp; livestock units
+                </button>
+                <button aria-controls="panel-zoos" aria-selected="false" class="tab" id="tab-zoos" role="tab"
+                        tabindex="-1">Zoos &amp; parks
+                </button>
+                <button aria-controls="panel-wildlife" aria-selected="false" class="tab" id="tab-wildlife" role="tab"
+                        tabindex="-1">Wildlife &amp; volunteer groups
+                </button>
             </div>
-            <p class="callout reveal" style="margin-top:32px"><strong>Honest status:</strong> the dashboard you can open
-                from this site is a prototype with sample data stored in your browser. It is not yet connected to a live
-                database and should not be used for real medical records.</p>
+            <div aria-labelledby="tab-shelters" class="tab-panel" id="panel-shelters" role="tabpanel">
+                <ol class="journey">
+                    <li><span>1</span>
+                        <h3>Arrival</h3>
+                        <p>Intake from finders, owners or authorities. Identification, microchip scan, photos and
+                            quarantine.</p></li>
+                    <li><span>2</span>
+                        <h3>Health</h3>
+                        <p>Vaccination, sterilisation, treatments, behaviour notes and follow-up checks.</p></li>
+                    <li><span>3</span>
+                        <h3>Daily life</h3>
+                        <p>Kennel or foster placement, feeding, walks, enrichment and routine care.</p></li>
+                    <li><span>4</span>
+                        <h3>Community</h3>
+                        <p>Adoption days, applications, home checks, volunteers and sponsors.</p></li>
+                    <li><span>5</span>
+                        <h3>Outcome</h3>
+                        <p>Adoption contract, return to owner or transfer, with post-adoption follow-up.</p></li>
+                </ol>
+            </div>
+            <div aria-labelledby="tab-clinics" class="tab-panel" hidden id="panel-clinics" role="tabpanel">
+                <ol class="journey">
+                    <li><span>1</span>
+                        <h3>Check-in</h3>
+                        <p>Owner and patient registration, referrals and triage on arrival.</p></li>
+                    <li><span>2</span>
+                        <h3>Treatment</h3>
+                        <p>Exam notes, tests, procedures, prescriptions and vaccinations.</p></li>
+                    <li><span>3</span>
+                        <h3>Hospital stay</h3>
+                        <p>Wards, monitoring, medication and feeding rounds, discharge preparation.</p></li>
+                    <li><span>4</span>
+                        <h3>Clients</h3>
+                        <p>Appointments, reminders, estimates, invoices and communication with owners.</p></li>
+                    <li><span>5</span>
+                        <h3>Follow-up</h3>
+                        <p>Recovery checks, repeat treatments and referrals, with the full history for the next
+                            visit.</p></li>
+                </ol>
+            </div>
+            <div aria-labelledby="tab-farms" class="tab-panel" hidden id="panel-farms" role="tabpanel">
+                <ol class="journey">
+                    <li><span>1</span>
+                        <h3>Arrival</h3>
+                        <p>Births, purchases, tagging, herd or flock registers and origin.</p></li>
+                    <li><span>2</span>
+                        <h3>Health</h3>
+                        <p>Vaccinations, treatments, vet visits, withdrawal periods and disease alerts.</p></li>
+                    <li><span>3</span>
+                        <h3>Daily life</h3>
+                        <p>Feed and water, housing conditions, grazing, welfare checks and production notes.</p></li>
+                    <li><span>4</span>
+                        <h3>Business</h3>
+                        <p>Costs per animal or group, supplies, labour, customers and orders.</p></li>
+                    <li><span>5</span>
+                        <h3>Outcome</h3>
+                        <p>Sale, transfer or retirement, with the records needed for traceability and reporting.</p>
+                    </li>
+                </ol>
+            </div>
+            <div aria-labelledby="tab-zoos" class="tab-panel" hidden id="panel-zoos" role="tabpanel">
+                <ol class="journey">
+                    <li><span>1</span>
+                        <h3>Acquisition</h3>
+                        <p>Arrivals, transfers between institutions, breeding records and identification.</p></li>
+                    <li><span>2</span>
+                        <h3>Health</h3>
+                        <p>Preventive care, treatments, quarantine, vet rounds and specimen history.</p></li>
+                    <li><span>3</span>
+                        <h3>Daily life</h3>
+                        <p>Diets, enrichment, enclosures, keeper notes and behaviour observations.</p></li>
+                    <li><span>4</span>
+                        <h3>Visitors</h3>
+                        <p>Events, talks, sponsorship, adopt-an-animal programmes and shop.</p></li>
+                    <li><span>5</span>
+                        <h3>Movements</h3>
+                        <p>Transfers, breeding loans, releases and end-of-life records.</p></li>
+                </ol>
+            </div>
+            <div aria-labelledby="tab-wildlife" class="tab-panel" hidden id="panel-wildlife" role="tabpanel">
+                <ol class="journey">
+                    <li><span>1</span>
+                        <h3>Rescue</h3>
+                        <p>Report, location, capture and condition on arrival.</p></li>
+                    <li><span>2</span>
+                        <h3>Rehabilitation</h3>
+                        <p>Treatment, medication, feeding plans and progress checks.</p></li>
+                    <li><span>3</span>
+                        <h3>Preparing for release</h3>
+                        <p>Fitness, behaviour, release criteria and volunteer care shifts.</p></li>
+                    <li><span>4</span>
+                        <h3>Support</h3>
+                        <p>Volunteers, donors, campaigns and partner clinics.</p></li>
+                    <li><span>5</span>
+                        <h3>Release or placement</h3>
+                        <p>Release site and date, monitoring, or transfer to a sanctuary.</p></li>
+                </ol>
+            </div>
+            <div class="around reveal">
+                <p><strong>Around every animal, the organisation keeps running.</strong> The same workspace holds the
+                    rest of the work:</p>
+                <ul>
+                    <li><a href="#modules">Facilities &amp; vehicles</a></li>
+                    <li><a href="#modules">Stock &amp; purchasing</a></li>
+                    <li><a href="#modules">People &amp; volunteers</a></li>
+                    <li><a href="#modules">Finance</a></li>
+                    <li><a href="#modules">Marketing &amp; shop</a></li>
+                    <li><a href="#modules">Events &amp; planning</a></li>
+                </ul>
+                <p class="fine" style="margin:12px 0 0">Not on the list? Sanctuaries, stables, breeders, sporting and
+                    working animals have similar needs. <a href="#contact">Tell us about yours.</a></p>
+            </div>
+            <p class="callout reveal" style="margin-top:36px"><strong>Honest status:</strong> today OKAPI is a prototype
+                covering animal profiles, medical records and appointments, with sample data stored in your browser. The
+                modules below are the product we are building towards, and each one is marked with its current status.
+                Please do not use the prototype for real medical records.</p>
+        </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="section section-white" id="modules">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow">Modules</span>
+                <h2>One platform for the animals and the organisation behind them</h2>
+                <p class="lead">Take what you need and add more as you grow. Pricing will be announced with the first
+                    release.</p>
+            </div>
+
+            <h3 class="group-title reveal">Animals</h3>
+            <div class="modules">
+                <article class="module reveal"><span class="tag live">Core · in prototype</span>
+                    <h3>Animal Health</h3>
+                    <ul>
+                        <li>Animal profiles, microchip and identification</li>
+                        <li>Medical records and treatment history</li>
+                        <li>Vaccinations, follow-ups and reminders</li>
+                        <li>Appointments with vets</li>
+                    </ul>
+                </article>
+                <article class="module reveal"><span class="tag next">Planned</span>
+                    <h3>Intake &amp; Animal Journey</h3>
+                    <ul>
+                        <li>Intake, origin and quarantine</li>
+                        <li>Transfers between sites and teams</li>
+                        <li>Adoption, sale, release or retirement</li>
+                        <li>Full life timeline for every animal</li>
+                    </ul>
+                </article>
+                <article class="module reveal"><span class="tag next">Planned</span>
+                    <h3>Welfare &amp; Daily Care</h3>
+                    <ul>
+                        <li>Feeding plans and nutrition</li>
+                        <li>Exercise and enrichment</li>
+                        <li>Enclosures and living conditions</li>
+                        <li>Daily routines and emergency cases</li>
+                    </ul>
+                </article>
+            </div>
+
+            <h3 class="group-title reveal">Running the organisation</h3>
+            <div class="modules four">
+                <article class="module reveal"><span class="tag later">Later</span>
+                    <h3>Facilities, Equipment &amp; Vehicles</h3>
+                    <ul>
+                        <li>Premises and maintenance</li>
+                        <li>Equipment and tools</li>
+                        <li>Vehicles and transport</li>
+                    </ul>
+                </article>
+                <article class="module reveal"><span class="tag later">Later</span>
+                    <h3>Inventory &amp; Purchasing</h3>
+                    <ul>
+                        <li>Food and supply stock</li>
+                        <li>Orders and suppliers</li>
+                        <li>Emergency reserve levels</li>
+                    </ul>
+                </article>
+                <article class="module reveal"><span class="tag next">Planned</span>
+                    <h3>People &amp; Access</h3>
+                    <ul>
+                        <li>Staff and volunteers</li>
+                        <li>Roles: admin, vet, carer, volunteer</li>
+                        <li>Schedules and shifts</li>
+                        <li>Separate workspace per organisation</li>
+                    </ul>
+                </article>
+                <article class="module reveal"><span class="tag later">Later</span>
+                    <h3>Finance</h3>
+                    <ul>
+                        <li>Income, expenses, budgets</li>
+                        <li>Purchases, sales and donations</li>
+                        <li>Payroll support</li>
+                        <li>Emergency fund tracking</li>
+                    </ul>
+                </article>
+            </div>
+
+            <h3 class="group-title reveal">Reaching out and growing</h3>
+            <div class="modules">
+                <article class="module reveal"><span class="tag later">Later</span>
+                    <h3>Marketing &amp; Shop</h3>
+                    <ul>
+                        <li>Campaigns and fundraising</li>
+                        <li>Merchandise and e-shop</li>
+                        <li>Public profiles of your animals</li>
+                    </ul>
+                </article>
+                <article class="module reveal"><span class="tag later">Later</span>
+                    <h3>Events, Adoption &amp; Customers</h3>
+                    <ul>
+                        <li>Events, open days and adoption days</li>
+                        <li>Adopter applications and follow-up</li>
+                        <li>Business customers, where relevant</li>
+                    </ul>
+                </article>
+                <article class="module reveal"><span class="tag later">Later</span>
+                    <h3>Planning &amp; AI Assistant</h3>
+                    <ul>
+                        <li>Yearly plan and goals</li>
+                        <li>Patterns across health, cost and capacity</li>
+                        <li>AI suggestions for every area above</li>
+                        <li>Reports for boards and funders</li>
+                    </ul>
+                </article>
+            </div>
+            <p class="fine reveal">The AI assistant is a long-term goal. It will only be as good as the data your
+                organisation records, and its suggestions will always be for people to review, never automatic
+                decisions.</p>
         </div>
     </section>
 
@@ -195,10 +415,32 @@
             <div class="gallery reveal">
                 <img alt="A woman in a wide-brimmed hat sitting among goats in a field" loading="lazy"
                      src="images/woman-goats.jpg">
-                <img alt="A child cradling a rabbit outdoors" loading="lazy" src="images/boy-rabbit.jpg">
-                <img alt="A child petting a pig in a forest" loading="lazy" src="images/boy-pig.jpg">
+                <img alt="A child cradling a rabbit outdoors" loading="lazy" src="images/child-rabbit.jpg"
+                     style="object-position:60% 40%">
+                <img alt="A smiling boy hugging a young goat" loading="lazy" src="images/boy-goat-bw.jpg"
+                     style="object-position:50% 30%">
                 <img alt="A girl with goats in front of a barn" loading="lazy" src="images/goats-barn.jpg"
                      style="grid-column: span 2">
+            </div>
+        </div>
+    </section>
+
+    <!-- STORIES -->
+    <section class="section section-cream">
+        <div class="wrap">
+            <div class="section-head center reveal">
+                <span class="eyebrow">Every animal has a story</span>
+                <h2>From the barn to the meadow</h2>
+                <p class="lead">Pets, farm animals, birds and wildlife: wherever they live, their care deserves a clear
+                    record.</p>
+            </div>
+            <div class="strip reveal">
+                <img alt="A girl in a straw hat holding a white duck" loading="lazy" src="images/girl-duck.jpg">
+                <img alt="A toddler reaching up to a goat in a barn" loading="lazy" src="images/toddler-goat.jpg">
+                <img alt="A woman resting in a meadow beside goats" loading="lazy" src="images/woman-meadow.jpg"
+                     style="object-position:30% 50%">
+                <img alt="Sheep and cattle grazing on a mountain pasture" loading="lazy" src="images/pasture-bw.jpg"
+                     style="object-position:55% 50%">
             </div>
         </div>
     </section>

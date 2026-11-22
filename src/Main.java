@@ -1,11 +1,12 @@
 import DbEntitiesConnection.AllergyDAO;
+import DbEntitiesConnection.AnimalDAO;
 import DbEntitiesConnection.MedicalRecordsDAO;
 import Model.Allergy;
+import Model.Animals;
 import Model.MedicalRecords;
 
 import java.sql.SQLException;
 import java.util.List;
-
 public class Main {
 
     static void main(String[] args) throws SQLException {
@@ -28,6 +29,18 @@ public class Main {
                     allergy.getAllergyId() + " | " +
                             allergy.getName() + " | " +
                             allergy.getStatus()
+            );
+        }
+        AnimalDAO animalDao = new AnimalDAO();
+
+        List<Animals> animals = animalDao.getAnimals();
+
+        for (Animals animal : animals) {
+
+            System.out.println(
+                    animal.getAnimalId() + " | " +
+                            animal.getName() + " | " +
+                            animal.getMicrochipNumber()
             );
         }
     }

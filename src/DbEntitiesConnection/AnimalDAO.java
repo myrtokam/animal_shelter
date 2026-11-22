@@ -1,3 +1,4 @@
+
 package DbEntitiesConnection;
 
 import Model.Animals;
@@ -5,88 +6,53 @@ import Util.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnimalDAO {
 
-    public boolean registerAnimal(Animals animal) throws SQLException {
+    public List<Animals> getAnimals() throws SQLException {
 
         String sql = """
-                INSERT INTO animals (
-                    name,
-                    sex,
-                    species_id,
-                    breed_id,
-                    organization_id,
-                    microchip_number,
-                    date_of_birth,
-                    color,
-                    sterilized,
-                    sterilization_date,
-                    found_date,
-                    intake_date,
-                    death_date,
-                    special_needs_summary
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                SELECT animals_id, name, microchip_number,
+                       color, special_needs_summary
+                FROM animals
+                ORDER BY animals_id
+                LIMIT 1000
                 """;
 
+        List<Animals> animalsList = new ArrayList<>();
+
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
 
-            statement.setString(1, animal.getName());
-            statement.setString(2, animal.getSex());
+            while (resultSet.next()) {
 
-            statement.setLong(3, animal.getSpeciesId());
-            statement.setLong(4, animal.getBreedId());
-            statement.setLong(5, animal.getOrganizationId());
+                Animals animal = new Animals();
 
-            statement.setString(6, animal.getMicrochipNumber());
+                animal.setAnimalId(
+                        resultSet.getLong("animals_id"));
 
-            if (animal.getDateOfBirth() != null) {
-                statement.setDate(7,
-                        java.sql.Date.valueOf(animal.getDateOfBirth()));
-            } else {
-                statement.setNull(7, Types.DATE);
+                animal.setName(
+                        resultSet.getString("name"));
+
+                animal.setMicrochipNumber(
+                        resultSet.getString("microchip_number"));
+
+                animal.setColor(
+                        resultSet.getString("color"));
+
+                animal.setSpecialNeedsSummary(
+                        resultSet.getString("special_needs_summary"));
+
+                animalsList.add(animal);
             }
-
-            statement.setString(8, animal.getColor());
-            statement.setBoolean(9, animal.isSterilized());
-
-            if (animal.getSterilizationDate() != null) {
-                statement.setDate(10,
-                        java.sql.Date.valueOf(animal.getSterilizationDate()));
-            } else {
-                statement.setNull(10, Types.DATE);
-            }
-
-            if (animal.getFoundDate() != null) {
-                statement.setDate(11,
-                        java.sql.Date.valueOf(animal.getFoundDate()));
-            } else {
-                statement.setNull(11, Types.DATE);
-            }
-
-            if (animal.getIntakeDate() != null) {
-                statement.setDate(12,
-                        java.sql.Date.valueOf(animal.getIntakeDate()));
-            } else {
-                statement.setNull(12, Types.DATE);
-            }
-
-            if (animal.getDeathDate() != null) {
-                statement.setDate(13,
-                        java.sql.Date.valueOf(animal.getDeathDate()));
-            } else {
-                statement.setNull(13, Types.DATE);
-            }
-
-            statement.setString(14, animal.getSpecialNeedsSummary());
-
-            int rowsAffected = statement.executeUpdate();
-
-            return rowsAffected > 0;
         }
+
+        return animalsList;
     }
 }
+

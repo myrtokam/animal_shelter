@@ -58,3 +58,25 @@ if (form) {
     }
   });
 }
+
+// Organisation-type tabs
+const tabList = document.querySelector('[role="tablist"]');
+if (tabList) {
+  const tabs = [...tabList.querySelectorAll('[role="tab"]')];
+  const select = tab => {
+    tabs.forEach(t => {
+      const on = t === tab;
+      t.classList.toggle("is-active", on);
+      t.setAttribute("aria-selected", String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+  };
+  tabs.forEach(t => t.addEventListener("click", () => select(t)));
+  tabList.addEventListener("keydown", e => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0 || !["ArrowRight", "ArrowLeft"].includes(e.key)) return;
+    const next = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+    next.focus(); select(next);
+  });
+}

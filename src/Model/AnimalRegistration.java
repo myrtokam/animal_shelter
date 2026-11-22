@@ -1,13 +1,29 @@
+
 package Model;
+
 public class AnimalRegistration {
 
-
-    public static boolean registerAnimal(Animals animal, Animals[] animals, int AnimalId) {//Καταχωρίζει ένα νέο ζώο
+    // Καταχωρίζει ένα νέο ζώο στο array.
+    public static boolean registerAnimal(Animals animal, Animals[] animals) {
 
         if (animal == null || animals == null) {
             return false;
         }
 
+        // Έλεγχος αν υπάρχει ήδη ζώο με το ίδιο ID.
+        if (isAnimalRegistered(animals, animal.getAnimalId())) {
+            return false;
+        }
+
+        // Έλεγχος διπλοεγγραφής με microchip.
+        String microchip = animal.getMicrochipNumber();
+
+        if (microchip != null &&
+                findAnimalByMicrochip(animals, microchip) != null) {
+            return false;
+        }
+
+        // Εύρεση της πρώτης κενής θέσης.
         for (int i = 0; i < animals.length; i++) {
 
             if (animals[i] == null) {
@@ -19,74 +35,112 @@ public class AnimalRegistration {
         return false;
     }
 
-    public static Animals findAnimalById(Animals animals, Animals[] animal) {
-        /*aναζητά ζώο με βάση το ID*/
+    // Αναζητά ζώο με βάση το ID.
+    public static Animals findAnimalById(Animals[] animals, long animalId) {
 
-        for (int i = 0; i < animal.length; i++) {
-            if (animal[i] != null && animal[i].getAnimalId() == animals.getAnimalId()) {
-                return animal[i];
+        if (animals == null) {
+            return null;
+        }
+
+        for (Animals animal : animals) {
+
+            if (animal != null &&
+                    animal.getAnimalId() == animalId) {
+
+                return animal;
             }
         }
+
         return null;
     }
 
-    public static Animals findAnimalByMicrochip(Animals animals, Animals[] animal, int MicrochipNum) {
-        //Αναζητά ζώο με βάση το microchip
+    // Αναζητά ζώο με βάση το microchip.
+    public static Animals findAnimalByMicrochip(Animals[] animals, String microchipNumber) {
 
-        for (int i = 0; i < animal.length; i++) {
-            if (animal[i] != null && animal[i].getMicrochipNumber().equals(animals.getMicrochipNumber())) {
-                return animal[i];
+        if (animals == null || microchipNumber == null) {
+            return null;
+        }
+
+        for (Animals animal : animals) {
+
+            if (animal != null &&
+                    microchipNumber.equals(animal.getMicrochipNumber())) {
+
+                return animal;
             }
         }
+
         return null;
     }
 
-    public static boolean updateAnimalDetails(Animals animals, Animals[] animal, String value) {
-        //Ενημερώνει τα στοιχεία ζώου
-        for (int i = 0; i < animal.length; i++) {
+    // Ενημερώνει τα στοιχεία ενός υπάρχοντος ζώου.
+    public static boolean updateAnimalDetails(Animals updatedAnimal, Animals[] animals) {
 
-            if (animal[i] != null &&
-                    animal[i].getAnimalId() == animals.getAnimalId()) {
-
-                if (animals.getName() != null) {
-                    animal[i].setName(animals.getName());
-                }
-
-                if (animals.getColor() != null) {
-                    animal[i].setColor(animals.getColor());
-                }
-                if (animals.getSterilizationDate() != null) {
-                    animal[i].setSterilized(animals.isSterilized());
-                }
-                if (animals.getMicrochipNumber() != null) {
-                    animal[i].setMicrochipNumber(animals.getMicrochipNumber());
-                }
-                if (animals.getSpecialNeedsSummary() != null) {
-                    animal[i].setSpecialNeedsSummary(animals.getSpecialNeedsSummary());
-                }
-                if (animals.getDescription() != null) {
-                    animal[i].setDescription(animals.getDescription());
-                }
-
-                return true;
-            }
+        if (updatedAnimal == null || animals == null) {
+            return false;
         }
-        return false;
+
+        Animals existingAnimal = findAnimalById(animals, updatedAnimal.getAnimalId());
+
+        if (existingAnimal == null) {
+            return false;
+        }
+
+        if (updatedAnimal.getName() != null) {
+            existingAnimal.setName(updatedAnimal.getName());
+        }
+
+        if (updatedAnimal.getColor() != null) {
+            existingAnimal.setColor(updatedAnimal.getColor());
+        }
+
+        if (updatedAnimal.getMicrochipNumber() != null) {
+
+            Animals animalWithMicrochip = findAnimalByMicrochip(animals, updatedAnimal.getMicrochipNumber());
+
+            // Δεν επιτρέπεται το ίδιο microchip σε διαφορετικά ζώα.
+            if (animalWithMicrochip != null && animalWithMicrochip != existingAnimal) {
+                return false;
+            }
+
+            existingAnimal.setMicrochipNumber(updatedAnimal.getMicrochipNumber());
+        }
+
+        if (updatedAnimal.getSpecialNeedsSummary() != null) {
+            existingAnimal.setSpecialNeedsSummary(
+                    updatedAnimal.getSpecialNeedsSummary()
+            );
+        }
+
+        if (updatedAnimal.getDescription() != null) {
+            existingAnimal.setDescription(updatedAnimal.getDescription());
+        }
+
+        return true;
     }
 
-    public static boolean isAnimalRegistered() {
-        //Ελέγχει αν υπάρχει ήδη καταχώριση
-        return false;
+    // Ελέγχει αν υπάρχει ήδη ζώο με συγκεκριμένο ID.
+    public static boolean isAnimalRegistered(Animals[] animals, long animalId) {
+
+        return findAnimalById(animals, animalId) != null;
     }
 
-    public static int countRegisteredAnimals(Animals animals, Animals[] animal, String value) {
-        //	Μετρά τα καταχωρισμένα ζώα
+    // Μετρά τα καταχωρισμένα ζώα.
+    public static int countRegisteredAnimals(Animals[] animals) {
+
+        if (animals == null) {
+            return 0;
+        }
+
         int count = 0;
-        for (int i = 0; i < animal.length; i++) {
-            if (animal[i] != null) {
+
+        for (Animals animal : animals) {
+
+            if (animal != null) {
                 count++;
             }
         }
+
         return count;
     }
 }
