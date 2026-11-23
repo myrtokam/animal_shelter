@@ -1,14 +1,21 @@
+
 package Model.Health;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class Medication {
 
-    private int medicationId;
-    private int animalId;
+    // Medication information
+    private long medicationId;
     private String medicationName;
+    private String activeIngredient;
+    private String form;
+    private String strength;
+
+    // Animal medication information
+    private Long animalId;
     private String dosage;
     private String frequency;
     private LocalDate startDate;
@@ -17,295 +24,87 @@ public class Medication {
     private String status;
     private String notes;
 
+    // Schedule information
+    private Long medicationScheduleId;
+    private LocalDateTime scheduledAt;
+    private BigDecimal scheduledDoseAmount;
+    private String doseUnit;
+
+    // Administration information
+    private Long medicationAdministrationId;
+    private LocalDateTime administeredAt;
+    private BigDecimal administeredDoseAmount;
+    private String administrationOutcome;
+
+    // Administration details
+    private Long administrationDetailId;
+    private BigDecimal actualDose;
+    private Long dosageUnitId;
+    private Long administrationRouteId;
+    private String batchNumber;
+    private String administeredByName;
+    private String missedReason;
+    private String adverseEventNotes;
+
+    // Audit information
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    // Empty constructor
     public Medication() {
     }
 
-    public Medication(int medicationId, int animalId, String medicationName, String dosage, String frequency, LocalDate startDate, LocalDate endDate, String prescribedBy, String status, String notes) {
-        this.medicationId = medicationId;
+    // Constructor for medication catalog
+    public Medication(long medicationId,
+                      String medicationName,
+                      String activeIngredient,
+                      String form,
+                      String strength) {
+
+        setMedicationId(medicationId);
+        setMedicationName(medicationName);
+        this.activeIngredient = activeIngredient;
+        this.form = form;
+        this.strength = strength;
+    }
+
+    // Constructor for an animal medication
+    public Medication(long medicationId,
+                      Long animalId,
+                      String medicationName,
+                      String dosage,
+                      String frequency,
+                      LocalDate startDate,
+                      LocalDate endDate,
+                      String prescribedBy,
+                      String status,
+                      String notes) {
+
+        setMedicationId(medicationId);
         this.animalId = animalId;
-        this.medicationName = medicationName;
+        setMedicationName(medicationName);
         this.dosage = dosage;
         this.frequency = frequency;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        setStartDate(startDate);
+        setEndDate(endDate);
         this.prescribedBy = prescribedBy;
         this.status = status;
         this.notes = notes;
     }
 
-    public static boolean createMedication(Medication[] medications, Medication medication, Animals animal) {
-        //	Προσθήκη φαρμακευτικής αγωγής
-        if (medications == null || medication == null) {
-            return false;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] == null) {
-                medications[i] = medication;
-                return true;
-            }
-        }
-        return false;
-    }
+    // Getters and setters
 
-    public static Medication findMedicationById(Medication[] medications, Medication medication, Animals animal) {
-        //	Αναζήτηση με ID
-
-        if (medications == null || medication == null) {
-            return medication;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] != null && medications[i].getAnimalId() == medication.getAnimalId()) {
-                return medications[i];
-            }
-        }
-
-        return null;
-    }
-
-    public static Medication updateMedication(Medication[] medications, Medication medication, Animals animal) {
-        //Ενημέρωση στοιχείων
-
-        if (medications == null || medication == null) {
-            return null;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] != null && medications[i].getAnimalId() == medication.getAnimalId()) {
-                if (medications[i].getMedicationName() != null) {
-                    medications[i].setMedicationName(medications[i].getMedicationName());
-                }
-                if (medications[i].getDosage() != null) {
-                    medications[i].setDosage(medications[i].getDosage());
-                }
-                if (medications[i].getNotes() != null) {
-                    medications[i].setNotes(medications[i].getNotes());
-                }
-                if (medications[i].getStatus() != null) {
-                    medications[i].setStatus(medications[i].getStatus());
-                }
-                if (medications[i].getFrequency() != null) {
-                    medications[i].setFrequency(medications[i].getFrequency());
-                }
-                if (medications[i] != null) {
-                    medications[i].setEndDate(medications[i].getEndDate());
-                }
-                if (medications[i] != null) {
-                    medications[i].setStartDate(medications[i].getStartDate());
-                }
-                if (medications[i] != null) {
-                    medications[i].setPrescribedBy(medications[i].getPrescribedBy());
-                }
-                return medications[i];
-            }
-        }
-        return null;
-    }
-
-    public static boolean deleteMedication(Medication[] medications, Medication medication, Animals animal) {
-        //Διαγραφή εγγραφής
-        if (medications == null || medication == null) {
-            return false;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] != null && medications[i].getMedicationId() == medication.getMedicationId()) {
-                medications[i] = null;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static List<Medication> getAllMedications(Medication[] medications, Medication medication, Animals animal, List<Medication> newMedication) {//	Όλες οι αγωγές
-        if (newMedication == null) {
-            newMedication = new ArrayList<>();
-        }
-        if (medications == null) {
-            return newMedication;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] != null) {
-                newMedication.add(medications[i]);
-            }
-        }
-        return newMedication;
-    }
-
-    public static List<Medication> getMedicationsByAnimal(Medication[] medications, Medication medication, Animals animal, List<Medication> newMedication) {
-        //	Αγωγές συγκεκριμένου ζώου
-        if (newMedication == null) {
-            newMedication = new ArrayList<>();
-        }
-        if (medications == null) {
-            return newMedication;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] != null && medications[i].animalId == medication.animalId) {
-                newMedication.add(medications[i]);
-            }
-        }
-        return newMedication;
-    }
-
-    public static int countMedications(Medication[] medications, Medication medication, Animals animal) {
-        //	Συνολικός αριθμός
-        int count = 0;
-        if (medications == null) {
-            return 0;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] != null) {
-
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public static int countMedicationsByAnimal(Medication[] medications, Medication medication, Animals animal) {
-        //Πλήθος ανά ζώο
-        int count = 0;
-        if (medications == null) {
-            return 0;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] != null && medications[i].getAnimalId() == medication.animalId) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public static List<Medication> findMedicationByName(Medication[] medications, String searchVlue, Medication medication, Animals animal) {
-        //	Αναζήτηση με όνομα
-        List<Medication> foundMedications = new ArrayList<>();
-        if (medications == null || medication == null || medication.getMedicationName() == null || medication.getMedicationName().isBlank()) {
-            return foundMedications;
-        }
-        for (int i = 0; i < medications.length; i++) {
-            if (medications[i] != null && medications[i].getMedicationName().equalsIgnoreCase(medication.getMedicationName())) {
-                foundMedications.add(medications[i]);
-            }
-        }
-        return foundMedications;
-    }
-
-    public static boolean completeMedication(Medication[] medications, Medication medication, Animals animal) {
-        //Ολοκλήρωση αγωγής
-
-        if (medications == null || medication == null) {
-            return false;
-        }
-
-        for (int i = 0; i < medications.length; i++) {
-
-            if (medications[i] != null &&
-                    medications[i].getMedicationId() == medication.getMedicationId() &&
-                    "Active".equalsIgnoreCase(medications[i].getStatus())) {
-
-                medications[i].setStatus("Completed");
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static boolean cancelMedication(Medication[] medications, Medication medication, Animals animal) {
-        //Ακύρωση αγωγής
-        if (medications == null || medication == null) {
-            return false;
-        }
-
-        for (int i = 0; i < medications.length; i++) {
-
-            if (medications[i] != null &&
-                    medications[i].getMedicationId() == medication.getMedicationId() &&
-                    "Active".equalsIgnoreCase(medications[i].getStatus())) {
-
-                medications[i].setStatus("Cancelled");
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static List<Medication> getActiveMedications(Medication[] medications, Medication medication, Animals animal) {
-        // Επιστρέφει όλες τις ενεργές αγωγές
-
-        List<Medication> activeMedications = new ArrayList<>();
-
-        if (medications == null) {
-            return activeMedications;
-        }
-
-        for (int i = 0; i < medications.length; i++) {
-
-            if (medications[i] != null &&
-                    "Active".equalsIgnoreCase(medications[i].getStatus())) {
-
-                activeMedications.add(medications[i]);
-            }
-        }
-
-        return activeMedications;
-    }
-
-    public static boolean isValidMedication(Medication[] medications, Medication medication, Animals animal) {
-        // Βασικός έλεγχος δεδομένων
-
-        if (medication == null) {
-            return false;
-        }
-
-        if (medication.getMedicationId() <= 0 ||
-                medication.getAnimalId() <= 0) {
-            return false;
-        }
-
-        if (medication.getMedicationName() == null ||
-                medication.getMedicationName().isBlank()) {
-            return false;
-        }
-
-        if (medication.getDosage() == null ||
-                medication.getDosage().isBlank()) {
-            return false;
-        }
-
-        if (medication.getFrequency() == null ||
-                medication.getFrequency().isBlank()) {
-            return false;
-        }
-
-        if (medication.getStartDate() == null) {
-            return false;
-        }
-
-        if (medication.getEndDate() != null &&
-                medication.getEndDate().isBefore(medication.getStartDate())) {
-            return false;
-        }
-
-        return "Active".equalsIgnoreCase(medication.getStatus()) ||
-                "Completed".equalsIgnoreCase(medication.getStatus()) ||
-                "Cancelled".equalsIgnoreCase(medication.getStatus());
-    }
-
-    public int getMedicationId() {
+    public long getMedicationId() {
         return medicationId;
     }
 
-    public void setMedicationId(int medicationId) {
+    public void setMedicationId(long medicationId) {
+        if (medicationId < 0) {
+            throw new IllegalArgumentException(
+                    "Medication ID cannot be negative"
+            );
+        }
         this.medicationId = medicationId;
-    }
-
-    public int getAnimalId() {
-        return animalId;
-    }
-
-    public void setAnimalId(int animalId) {
-        this.animalId = animalId;
     }
 
     public String getMedicationName() {
@@ -313,14 +112,50 @@ public class Medication {
     }
 
     public void setMedicationName(String medicationName) {
+        if (medicationName == null ||
+                medicationName.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Medication name is required"
+            );
+        }
         this.medicationName = medicationName;
+    }
+
+    public String getActiveIngredient() {
+        return activeIngredient;
+    }
+
+    public void setActiveIngredient(String activeIngredient) {
+        this.activeIngredient = activeIngredient;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public String getStrength() {
+        return strength;
+    }
+
+    public void setStrength(String strength) {
+        this.strength = strength;
+    }
+
+    public Long getAnimalId() {
+        return animalId;
+    }
+
+    public void setAnimalId(Long animalId) {
+        this.animalId = animalId;
     }
 
     public String getDosage() {
         return dosage;
     }
-
-    //Methods
 
     public void setDosage(String dosage) {
         this.dosage = dosage;
@@ -339,6 +174,13 @@ public class Medication {
     }
 
     public void setStartDate(LocalDate startDate) {
+        if (startDate != null &&
+                endDate != null &&
+                startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException(
+                    "Start date cannot be after end date"
+            );
+        }
         this.startDate = startDate;
     }
 
@@ -347,6 +189,13 @@ public class Medication {
     }
 
     public void setEndDate(LocalDate endDate) {
+        if (endDate != null &&
+                startDate != null &&
+                endDate.isBefore(startDate)) {
+            throw new IllegalArgumentException(
+                    "End date cannot be before start date"
+            );
+        }
         this.endDate = endDate;
     }
 
@@ -373,8 +222,238 @@ public class Medication {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    public Long getMedicationScheduleId() {
+        return medicationScheduleId;
+    }
+
+    public void setMedicationScheduleId(Long medicationScheduleId) {
+        this.medicationScheduleId = medicationScheduleId;
+    }
+
+    public LocalDateTime getScheduledAt() {
+        return scheduledAt;
+    }
+
+    public void setScheduledAt(LocalDateTime scheduledAt) {
+        this.scheduledAt = scheduledAt;
+    }
+
+    public BigDecimal getScheduledDoseAmount() {
+        return scheduledDoseAmount;
+    }
+
+    public void setScheduledDoseAmount(BigDecimal scheduledDoseAmount) {
+        validateDose(scheduledDoseAmount);
+        this.scheduledDoseAmount = scheduledDoseAmount;
+    }
+
+    public String getDoseUnit() {
+        return doseUnit;
+    }
+
+    public void setDoseUnit(String doseUnit) {
+        this.doseUnit = doseUnit;
+    }
+
+    public Long getMedicationAdministrationId() {
+        return medicationAdministrationId;
+    }
+
+    public void setMedicationAdministrationId(
+            Long medicationAdministrationId) {
+        this.medicationAdministrationId = medicationAdministrationId;
+    }
+
+    public LocalDateTime getAdministeredAt() {
+        return administeredAt;
+    }
+
+    public void setAdministeredAt(LocalDateTime administeredAt) {
+        this.administeredAt = administeredAt;
+    }
+
+    public BigDecimal getAdministeredDoseAmount() {
+        return administeredDoseAmount;
+    }
+
+    public void setAdministeredDoseAmount(
+            BigDecimal administeredDoseAmount) {
+        validateDose(administeredDoseAmount);
+        this.administeredDoseAmount = administeredDoseAmount;
+    }
+
+    public String getAdministrationOutcome() {
+        return administrationOutcome;
+    }
+
+    public void setAdministrationOutcome(
+            String administrationOutcome) {
+        this.administrationOutcome = administrationOutcome;
+    }
+
+    public Long getAdministrationDetailId() {
+        return administrationDetailId;
+    }
+
+    public void setAdministrationDetailId(
+            Long administrationDetailId) {
+        this.administrationDetailId = administrationDetailId;
+    }
+
+    public BigDecimal getActualDose() {
+        return actualDose;
+    }
+
+    public void setActualDose(BigDecimal actualDose) {
+        validateDose(actualDose);
+        this.actualDose = actualDose;
+    }
+
+    public Long getDosageUnitId() {
+        return dosageUnitId;
+    }
+
+    public void setDosageUnitId(Long dosageUnitId) {
+        this.dosageUnitId = dosageUnitId;
+    }
+
+    public Long getAdministrationRouteId() {
+        return administrationRouteId;
+    }
+
+    public void setAdministrationRouteId(
+            Long administrationRouteId) {
+        this.administrationRouteId = administrationRouteId;
+    }
+
+    public String getBatchNumber() {
+        return batchNumber;
+    }
+
+    public void setBatchNumber(String batchNumber) {
+        this.batchNumber = batchNumber;
+    }
+
+    public String getAdministeredByName() {
+        return administeredByName;
+    }
+
+    public void setAdministeredByName(String administeredByName) {
+        this.administeredByName = administeredByName;
+    }
+
+    public String getMissedReason() {
+        return missedReason;
+    }
+
+    public void setMissedReason(String missedReason) {
+        this.missedReason = missedReason;
+    }
+
+    public String getAdverseEventNotes() {
+        return adverseEventNotes;
+    }
+
+    public void setAdverseEventNotes(String adverseEventNotes) {
+        this.adverseEventNotes = adverseEventNotes;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // Business methods
+
+    public boolean isActive() {
+        return "ACTIVE".equalsIgnoreCase(status);
+    }
+
+    public boolean isCompleted() {
+        return "COMPLETED".equalsIgnoreCase(status);
+    }
+
+    public boolean isCancelled() {
+        return "CANCELLED".equalsIgnoreCase(status);
+    }
+
+    public boolean hasValidDates() {
+        return startDate != null &&
+                (endDate == null ||
+                        !endDate.isBefore(startDate));
+    }
+
+    public boolean isScheduled() {
+        return scheduledAt != null;
+    }
+
+    public boolean hasBeenAdministered() {
+        return administeredAt != null;
+    }
+
+    public boolean hasAdverseEvent() {
+        return adverseEventNotes != null &&
+                !adverseEventNotes.isBlank();
+    }
+
+    public void completeMedication() {
+        if (isCancelled()) {
+            throw new IllegalStateException(
+                    "A cancelled medication course cannot be completed"
+            );
+        }
+
+        if (isCompleted()) {
+            throw new IllegalStateException(
+                    "Medication course is already completed"
+            );
+        }
+
+        this.status = "COMPLETED";
+        this.endDate = LocalDate.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void cancelMedication() {
+        if (isCompleted()) {
+            throw new IllegalStateException(
+                    "A completed medication course cannot be cancelled"
+            );
+        }
+
+        if (isCancelled()) {
+            throw new IllegalStateException(
+                    "Medication course is already cancelled"
+            );
+        }
+
+        this.status = "CANCELLED";
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public boolean isValidMedication() {
+        return medicationName != null &&
+                !medicationName.isBlank() &&
+                medicationId >= 0;
+    }
+
+    private void validateDose(BigDecimal dose) {
+        if (dose != null && dose.signum() < 0) {
+            throw new IllegalArgumentException(
+                    "Dose cannot be negative"
+            );
+        }
+    }
 }
-
-
-
-

@@ -1,4 +1,5 @@
 
+
 package Model.Health;
 
 import java.math.BigDecimal;
@@ -44,25 +45,40 @@ public class Treatment {
     public Treatment() {
     }
 
-    // Constructor
-    public Treatment(long treatmentId, long animalId,
-                     long veterinarianId, long medicalRecordId,
-                     long createdByUserId, String treatmentName,
-                     String treatmentType, String description,
-                     String diagnosis, String medication,
-                     String dosage, String frequency,
-                     String administrationRoute, String instructions,
-                     String status, String notes, String outcome,
-                     String sideEffects, LocalDate startDate,
-                     LocalDate endDate, LocalDate nextReviewDate,
-                     LocalDate completedDate, LocalDateTime createdAt,
-                     LocalDateTime updatedAt, BigDecimal cost) {
+    // Full constructor
+    public Treatment(
+            long treatmentId,
+            long animalId,
+            long veterinarianId,
+            long medicalRecordId,
+            long createdByUserId,
+            String treatmentName,
+            String treatmentType,
+            String description,
+            String diagnosis,
+            String medication,
+            String dosage,
+            String frequency,
+            String administrationRoute,
+            String instructions,
+            String status,
+            String notes,
+            String outcome,
+            String sideEffects,
+            LocalDate startDate,
+            LocalDate endDate,
+            LocalDate nextReviewDate,
+            LocalDate completedDate,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            BigDecimal cost) {
 
         this.treatmentId = treatmentId;
         this.animalId = animalId;
         this.veterinarianId = veterinarianId;
         this.medicalRecordId = medicalRecordId;
         this.createdByUserId = createdByUserId;
+
         this.treatmentName = treatmentName;
         this.treatmentType = treatmentType;
         this.description = description;
@@ -76,13 +92,15 @@ public class Treatment {
         this.notes = notes;
         this.outcome = outcome;
         this.sideEffects = sideEffects;
+
         this.startDate = startDate;
         this.endDate = endDate;
         this.nextReviewDate = nextReviewDate;
         this.completedDate = completedDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.cost = cost;
+
+        setCost(cost);
     }
 
     // Getters and setters
@@ -286,23 +304,25 @@ public class Treatment {
     public void setCost(BigDecimal cost) {
         if (cost != null && cost.signum() < 0) {
             throw new IllegalArgumentException(
-                    "Cost cannot be negative");
+                    "Cost cannot be negative"
+            );
         }
+
         this.cost = cost;
     }
 
     // Business methods
 
     public boolean isActive() {
-        return "ACTIVE".equals(status);
+        return "ACTIVE".equalsIgnoreCase(status);
     }
 
     public boolean isCompleted() {
-        return "COMPLETED".equals(status);
+        return "COMPLETED".equalsIgnoreCase(status);
     }
 
     public boolean isCancelled() {
-        return "CANCELLED".equals(status);
+        return "CANCELLED".equalsIgnoreCase(status);
     }
 
     public boolean hasValidDates() {
@@ -310,33 +330,53 @@ public class Treatment {
             return false;
         }
 
-        return endDate == null || !endDate.isBefore(startDate);
+        return endDate == null
+                || !endDate.isBefore(startDate);
     }
 
     public boolean needsReview() {
-        if (nextReviewDate == null || !isActive()) {
-            return false;
-        }
-
-        return !nextReviewDate.isAfter(LocalDate.now());
+        return nextReviewDate != null
+                && isActive()
+                && !nextReviewDate.isAfter(LocalDate.now());
     }
 
     public void completeTreatment() {
         if (isCancelled()) {
             throw new IllegalStateException(
-                    "A cancelled treatment cannot be completed");
+                    "A cancelled treatment cannot be completed"
+            );
+        }
+
+        if (isCompleted()) {
+            throw new IllegalStateException(
+                    "Treatment is already completed"
+            );
+        }
+
+        if (startDate != null
+                && startDate.isAfter(LocalDate.now())) {
+            throw new IllegalStateException(
+                    "Treatment cannot be completed before its start date"
+            );
         }
 
         this.status = "COMPLETED";
         this.completedDate = LocalDate.now();
-        this.endDate = LocalDate.now();
+        this.endDate = this.completedDate;
         this.updatedAt = LocalDateTime.now();
     }
 
     public void cancelTreatment() {
         if (isCompleted()) {
             throw new IllegalStateException(
-                    "A completed treatment cannot be cancelled");
+                    "A completed treatment cannot be cancelled"
+            );
+        }
+
+        if (isCancelled()) {
+            throw new IllegalStateException(
+                    "Treatment is already cancelled"
+            );
         }
 
         this.status = "CANCELLED";

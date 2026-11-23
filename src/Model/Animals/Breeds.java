@@ -1,4 +1,4 @@
-package Model;
+package Model.Animals;
 
-public class Breeds extends Animals {
+public class Breeds {
 }
