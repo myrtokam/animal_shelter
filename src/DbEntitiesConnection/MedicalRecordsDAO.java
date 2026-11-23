@@ -1,7 +1,7 @@
 
 package DbEntitiesConnection;
 
-import Model.MedicalRecords;
+import Model.Health.MedicalRecords;
 import Util.DatabaseConnection;
 
 import java.sql.Connection;

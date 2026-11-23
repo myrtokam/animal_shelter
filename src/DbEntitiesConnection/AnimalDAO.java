@@ -1,7 +1,7 @@
 
 package DbEntitiesConnection;
 
-import Model.Animals;
+import Model.Health.Animals;
 import Util.DatabaseConnection;
 
 import java.sql.Connection;
@@ -16,8 +16,7 @@ public class AnimalDAO {
     public List<Animals> getAnimals() throws SQLException {
 
         String sql = """
-                SELECT animals_id, name, microchip_number,
-                       color, special_needs_summary
+                SELECT animals_id, name, microchip_number, color, special_needs_summary
                 FROM animals
                 ORDER BY animals_id
                 LIMIT 1000

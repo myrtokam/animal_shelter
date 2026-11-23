@@ -1,6 +1,6 @@
 package DbEntitiesConnection;
 
-import Model.Allergy;
+import Model.Health.Allergy;
 import Util.DatabaseConnection;
 
 import java.sql.Connection;
@@ -21,7 +21,7 @@ public class AllergyDAO {
         }
     }
 
-    public List<Allergy> getAlergies() throws SQLException {
+    public List<Model.Health.Allergy> getAlergies() throws SQLException {
 
         // Το SQL query που θα εκτελεστεί στη βάση.
         String sql = """
