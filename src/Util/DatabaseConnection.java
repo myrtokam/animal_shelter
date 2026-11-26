@@ -18,6 +18,14 @@ public class DatabaseConnection {
 
     public static Connection getConnection() throws SQLException {
 
+        if (USER == null || USER.isBlank()) {
+            throw new SQLException("DB_USER is missing");
+        }
+
+        if (PASSWORD == null || PASSWORD.isBlank()) {
+            throw new SQLException("DB_PASSWORD is missing");
+        }
+
         return DriverManager.getConnection(
                 URL,
                 USER,

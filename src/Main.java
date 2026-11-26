@@ -1,24 +1,56 @@
+
 import DbEntitiesConnection.*;
 import Model.Health.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
 
+    // ==========================================
+    // TEST IDS
+    // ==========================================
+
+    private static final long ANIMAL_ID = 1;
+    private static final long TREATMENT_PLAN_ID = 1;
+    private static final long MEDICATION_ID = 1;
+    private static final long ADMINISTRATION_ID = 1;
+    private static final long APPOINTMENT_ID = 1;
+    private static final long APPOINTMENT_TYPE_ID = 1;
+    private static final long VETERINARIAN_ID = 1;
+    private static final long ORGANIZATION_ID = 1;
+
+
+    // ==========================================
+    // MAIN
+    // ==========================================
+
     static void main(String[] args) throws SQLException {
 
-        // IDs used for testing
-        // Replace these with IDs that exist in your database.
-        long animalId = 1;
-        long treatmentPlanId = 1;
-        long medicationId = 1;
-        long administrationId = 1;
+        testMedicalRecords();
+
+        testAllergies();
+
+        testAnimals();
+
+        testTreatments();
+
+        testMedications();
+
+        testAppointments();
+
+        testAppointmentTypes();
+
+        System.out.println("\n===== END OF DATABASE READ =====");
+    }
 
 
-        // ==========================================
-        // MEDICAL RECORDS
+    // ==========================================
+    // MEDICAL RECORDS
+    // ==========================================
 
+    public static void testMedicalRecords() throws SQLException {
 
         System.out.println("\n===== MEDICAL RECORDS =====");
 
@@ -31,14 +63,16 @@ public class Main {
             System.out.println(record);
         }
 
+    }
+    // ==========================================
+    // ALLERGIES
+    // ==========================================
 
-        // ==========================================
-        // ALLERGIES
-
-
-        System.out.println("\n===== ALLERGIES =====");
+    public static void testAllergies() throws SQLException {
 
         AllergyDAO allergyDao = new AllergyDAO();
+
+        printSection("ALLERGIES");
 
         List<Allergy> allergies = allergyDao.getAlergies();
 
@@ -50,18 +84,21 @@ public class Main {
                             allergy.getStatus()
             );
         }
+    }
 
 
-        // ==========================================
-        // ANIMALS
+    // ==========================================
+    // ANIMALS
+    // ==========================================
 
+    public static void testAnimals() throws SQLException {
 
         AnimalDAO animalDao = new AnimalDAO();
 
 
-        // READ ALL
+        // READ ALL ANIMALS
 
-        System.out.println("\n===== ALL ANIMALS =====");
+        printSection("ALL ANIMALS");
 
         List<Animals> animals = animalDao.getAnimals();
 
@@ -75,43 +112,47 @@ public class Main {
         }
 
 
-        // COUNT
+        // COUNT ANIMALS
 
-        System.out.println("\n===== ANIMAL COUNT =====");
+        printSection("ANIMAL COUNT");
 
         System.out.println(
                 "Total animals: " + animalDao.countAnimals()
         );
 
 
-        // READ BY ID
+        // READ ANIMAL BY ID
 
-        System.out.println("\n===== SEARCH ANIMAL BY ID =====");
+        printSection("SEARCH ANIMAL BY ID");
 
-        Animals found = animalDao.getAnimalById(animalId);
+        Animals found = animalDao.getAnimalById(ANIMAL_ID);
 
         if (found != null) {
 
             System.out.println(
-                    "Found: " + found.getAnimalId() +
-                            " | " + found.getName()
+                    found.getAnimalId() + " | " +
+                            found.getName()
             );
 
         } else {
+
             System.out.println("Animal not found");
         }
+    }
 
 
-        // ==========================================
-        // TREATMENTS
+    // ==========================================
+    // TREATMENTS
+    // ==========================================
 
+    public static void testTreatments() throws SQLException {
 
         TreatmentDAO treatmentDao = new TreatmentDAO();
 
 
-        // READ ALL TREATMENT PLANS
+        // ALL TREATMENT PLANS
 
-        System.out.println("\n===== TREATMENT PLANS =====");
+        printSection("TREATMENT PLANS");
 
         List<Treatment> treatmentPlans =
                 treatmentDao.getAllTreatmentPlans();
@@ -127,12 +168,12 @@ public class Main {
         }
 
 
-        // READ TREATMENT PROGRESS
+        // TREATMENT PROGRESS
 
-        System.out.println("\n===== TREATMENT PROGRESS =====");
+        printSection("TREATMENT PROGRESS");
 
         List<Treatment> treatmentProgress =
-                treatmentDao.getTreatmentProgress(treatmentPlanId);
+                treatmentDao.getTreatmentProgress(TREATMENT_PLAN_ID);
 
         for (Treatment treatment : treatmentProgress) {
 
@@ -145,12 +186,12 @@ public class Main {
         }
 
 
-        // READ PARASITE TREATMENTS BY ANIMAL
+        // PARASITE TREATMENTS
 
-        System.out.println("\n===== PARASITE TREATMENTS =====");
+        printSection("PARASITE TREATMENTS");
 
         List<Treatment> parasiteTreatments =
-                treatmentDao.getParasiteTreatmentsByAnimal(animalId);
+                treatmentDao.getParasiteTreatmentsByAnimal(ANIMAL_ID);
 
         for (Treatment treatment : parasiteTreatments) {
 
@@ -160,18 +201,21 @@ public class Main {
                             treatment.getStatus()
             );
         }
+    }
 
 
-        // ==========================================
-        // MEDICATIONS
+    // ==========================================
+    // MEDICATIONS
+    // ==========================================
 
+    public static void testMedications() throws SQLException {
 
         MedicationDAO medicationDao = new MedicationDAO();
 
 
-        // READ ALL MEDICATIONS
+        // ALL MEDICATIONS
 
-        System.out.println("\n===== ALL MEDICATIONS =====");
+        printSection("ALL MEDICATIONS");
 
         List<Medication> medications =
                 medicationDao.getAllMedications();
@@ -187,12 +231,12 @@ public class Main {
         }
 
 
-        // READ MEDICATION BY ID
+        // MEDICATION BY ID
 
-        System.out.println("\n===== MEDICATION BY ID =====");
+        printSection("MEDICATION BY ID");
 
         Medication foundMedication =
-                medicationDao.getMedicationById(medicationId);
+                medicationDao.getMedicationById(MEDICATION_ID);
 
         if (foundMedication != null) {
 
@@ -203,16 +247,17 @@ public class Main {
             );
 
         } else {
+
             System.out.println("Medication not found");
         }
 
 
-        // READ MEDICATION SCHEDULES BY ANIMAL
+        // MEDICATION SCHEDULES
 
-        System.out.println("\n===== MEDICATION SCHEDULES =====");
+        printSection("MEDICATION SCHEDULES");
 
         List<Medication> schedules =
-                medicationDao.getMedicationSchedulesByAnimal(animalId);
+                medicationDao.getMedicationSchedulesByAnimal(ANIMAL_ID);
 
         for (Medication schedule : schedules) {
 
@@ -225,12 +270,12 @@ public class Main {
         }
 
 
-        // READ MEDICATION ADMINISTRATIONS BY ANIMAL
+        // MEDICATION ADMINISTRATIONS
 
-        System.out.println("\n===== MEDICATION ADMINISTRATIONS =====");
+        printSection("MEDICATION ADMINISTRATIONS");
 
         List<Medication> administrations =
-                medicationDao.getAdministrationsByAnimal(animalId);
+                medicationDao.getAdministrationsByAnimal(ANIMAL_ID);
 
         for (Medication administration : administrations) {
 
@@ -243,12 +288,12 @@ public class Main {
         }
 
 
-        // READ ADMINISTRATION DETAILS
+        // ADMINISTRATION DETAILS
 
-        System.out.println("\n===== ADMINISTRATION DETAILS =====");
+        printSection("ADMINISTRATION DETAILS");
 
         List<Medication> administrationDetails =
-                medicationDao.getAdministrationDetails(administrationId);
+                medicationDao.getAdministrationDetails(ADMINISTRATION_ID);
 
         for (Medication detail : administrationDetails) {
 
@@ -259,8 +304,415 @@ public class Main {
                             detail.getAdverseEventNotes()
             );
         }
+    }
 
 
-        System.out.println("\n===== END OF DATABASE READ =====");
+    // ==========================================
+    // APPOINTMENTS
+    // ==========================================
+
+    public static void testAppointments() throws SQLException {
+
+        AppointmentDAO appointmentDao = new AppointmentDAO();
+
+        appointmentDao.testConnection();
+
+
+        // ALL APPOINTMENTS
+
+        printSection("ALL APPOINTMENTS");
+
+        printResults(
+                appointmentDao.appointments()
+        );
+
+
+        // APPOINTMENT BY ID
+
+        printSection("APPOINTMENT BY ID");
+
+        Appointment foundAppointment =
+                appointmentDao.getAppointmentById(APPOINTMENT_ID);
+
+        if (foundAppointment != null) {
+
+            System.out.println(foundAppointment);
+
+        } else {
+
+            System.out.println("Appointment not found");
+        }
+
+
+        // APPOINTMENTS BY ANIMAL
+
+        printSection("APPOINTMENTS BY ANIMAL");
+
+        printResults(
+                appointmentDao.getAppointmentsByAnimal(ANIMAL_ID)
+        );
+
+
+        // APPOINTMENTS BY VETERINARIAN
+
+        printSection("APPOINTMENTS BY VETERINARIAN");
+
+        printResults(
+                appointmentDao.getAppointmentsByVeterinarian(
+                        VETERINARIAN_ID
+                )
+        );
+
+
+        // APPOINTMENTS BY ORGANIZATION
+
+        printSection("APPOINTMENTS BY ORGANIZATION");
+
+        printResults(
+                appointmentDao.getAppointmentsByOrganization(
+                        ORGANIZATION_ID
+                )
+        );
+
+
+        // APPOINTMENTS BY TYPE ID
+
+        printSection("APPOINTMENTS BY TYPE ID");
+
+        printResults(
+                appointmentDao.getAppointmentsByType(
+                        APPOINTMENT_TYPE_ID
+                )
+        );
+
+
+        // APPOINTMENTS BY TYPE NAME
+
+        printSection("APPOINTMENTS BY TYPE NAME");
+
+        printResults(
+                appointmentDao.getAppointmentsByTypeName(
+                        "General Consultation"
+                )
+        );
+
+
+        // APPOINTMENTS BY STATUS
+
+        printSection("PENDING APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getAppointmentsByStatus("PENDING")
+        );
+
+
+        // APPOINTMENTS BY BOOKING TYPE
+
+        printSection("APPOINTMENTS BY BOOKING TYPE");
+
+        printResults(
+                appointmentDao.getAppointmentsByBookingType(
+                        "SCHEDULED"
+                )
+        );
+
+
+        // APPOINTMENTS BY TRIAGE LEVEL
+
+        printSection("APPOINTMENTS BY TRIAGE LEVEL");
+
+        printResults(
+                appointmentDao.getAppointmentsByTriageLevel(
+                        "URGENT"
+                )
+        );
+
+
+        // GENERAL CONSULTATIONS
+
+        printSection("GENERAL CONSULTATIONS");
+
+        printResults(
+                appointmentDao.getGeneralConsultations()
+        );
+
+
+        // SCHEDULED APPOINTMENTS
+
+        printSection("SCHEDULED APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getScheduledAppointments()
+        );
+
+
+        // WALK-IN APPOINTMENTS
+
+        printSection("WALK-IN APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getWalkInAppointments()
+        );
+
+
+        // UNSCHEDULED APPOINTMENTS
+
+        printSection("UNSCHEDULED APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getUnscheduledAppointments()
+        );
+
+
+        // URGENT APPOINTMENTS
+
+        printSection("URGENT APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getUrgentAppointments()
+        );
+
+
+        // EMERGENCY APPOINTMENTS
+
+        printSection("EMERGENCY APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getEmergencyAppointments()
+        );
+
+
+        // CRITICAL APPOINTMENTS
+
+        printSection("CRITICAL APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getCriticalAppointments()
+        );
+
+
+        // ALL SURGERIES
+
+        printSection("ALL SURGERIES");
+
+        printResults(
+                appointmentDao.getSurgeries()
+        );
+
+
+        // SCHEDULED SURGERIES
+
+        printSection("SCHEDULED SURGERIES");
+
+        printResults(
+                appointmentDao.getScheduledSurgeries()
+        );
+
+
+        // EMERGENCY SURGERIES
+
+        printSection("EMERGENCY SURGERIES");
+
+        printResults(
+                appointmentDao.getEmergencySurgeries()
+        );
+
+
+        // HOSPITALIZATIONS
+
+        printSection("HOSPITALIZATIONS");
+
+        printResults(
+                appointmentDao.getHospitalizations()
+        );
+
+
+        // FOLLOW-UP APPOINTMENTS
+
+        printSection("FOLLOW-UP APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getFollowUpAppointments()
+        );
+
+
+        // VACCINATIONS
+
+        printSection("VACCINATIONS");
+
+        printResults(
+                appointmentDao.getVaccinationAppointments()
+        );
+
+
+        // STERILIZATIONS
+
+        printSection("STERILIZATIONS");
+
+        printResults(
+                appointmentDao.getSterilizationAppointments()
+        );
+
+
+        // DIAGNOSTIC EXAMINATIONS
+
+        printSection("DIAGNOSTIC EXAMINATIONS");
+
+        printResults(
+                appointmentDao.getDiagnosticExaminations()
+        );
+
+
+        // APPOINTMENTS BY DATE RANGE
+
+        printSection("TODAY'S APPOINTMENTS");
+
+        LocalDate today = LocalDate.now();
+
+        printResults(
+                appointmentDao.getAppointmentsByDateRange(
+                        today.atStartOfDay(),
+                        today.plusDays(1).atStartOfDay()
+                )
+        );
+
+
+        // COMPLETED APPOINTMENTS
+
+        printSection("COMPLETED APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getCompletedAppointments()
+        );
+
+
+        // CANCELLED APPOINTMENTS
+
+        printSection("CANCELLED APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getCancelledAppointments()
+        );
+
+
+        // UNCLASSIFIED APPOINTMENTS
+
+        printSection("UNCLASSIFIED APPOINTMENTS");
+
+        printResults(
+                appointmentDao.getUnclassifiedAppointments()
+        );
+
+
+        // COUNT APPOINTMENTS
+
+        printSection("APPOINTMENT COUNT");
+
+        System.out.println(
+                "Total appointments: " +
+                        appointmentDao.countAppointments()
+        );
+
+
+        // COUNT APPOINTMENTS BY ANIMAL
+
+        printSection("ANIMAL APPOINTMENT COUNT");
+
+        System.out.println(
+                "Appointments for animal " + ANIMAL_ID + ": " +
+                        appointmentDao.countAppointmentsByAnimal(ANIMAL_ID)
+        );
+    }
+
+
+    // ==========================================
+    // APPOINTMENT TYPES
+    // ==========================================
+
+    public static void testAppointmentTypes() throws SQLException {
+
+        AppointmentDAO appointmentDao = new AppointmentDAO();
+
+
+        // ALL APPOINTMENT TYPES
+
+        printSection("ALL APPOINTMENT TYPES");
+
+        List<Appoitment_types> types =
+                appointmentDao.getAppointmentTypes();
+
+        printResults(types);
+
+
+        // ACTIVE APPOINTMENT TYPES
+
+        printSection("ACTIVE APPOINTMENT TYPES");
+
+        printResults(
+                appointmentDao.getActiveAppointmentTypes()
+        );
+
+
+        // APPOINTMENT TYPE BY ID
+
+        printSection("APPOINTMENT TYPE BY ID");
+
+        Appoitment_types foundType =
+                appointmentDao.getAppointmentTypeById(
+                        APPOINTMENT_TYPE_ID
+                );
+
+        if (foundType != null) {
+
+            System.out.println(foundType);
+
+        } else {
+
+            System.out.println("Appointment type not found");
+        }
+
+
+        // COUNT APPOINTMENT TYPES
+
+        printSection("APPOINTMENT TYPE COUNT");
+
+        System.out.println(
+                "Total appointment types: " +
+                        appointmentDao.countAppointmentTypes()
+        );
+    }
+
+
+    // ==========================================
+    // HELPER METHODS
+    // ==========================================
+
+    private static void printSection(String title) {
+
+        System.out.println("\n==========================================");
+
+        System.out.println(title);
+
+        System.out.println("==========================================");
+    }
+
+
+    private static void printResults(List<?> results) {
+
+        if (results.isEmpty()) {
+
+            System.out.println("No records found");
+
+            return;
+        }
+
+        for (Object result : results) {
+
+            System.out.println(result);
+        }
+
+        System.out.println(
+                "\nRecords retrieved: " + results.size()
+        );
     }
 }
