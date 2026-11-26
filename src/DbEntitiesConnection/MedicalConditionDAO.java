@@ -1,141 +1,242 @@
 package DbEntitiesConnection;
 
+import Model.Health.MedicalCondition;
 import Util.DatabaseConnection;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class MedicalConditionDAO {
 
-
-}
-
-/*
-public void testConnection() throws SQLException {
-
+    public void testConnection() throws SQLException {
         try (Connection connection = DatabaseConnection.getConnection()) {
-            System.out.println("Connection successful");
+            System.out.println("Connection succesfull");
         }
     }
 
-  public List<MedicalRecords> getMedicalRecords() throws SQLException {
-
-        // Το SQL query που θα εκτελεστεί στη βάση.
-        String sql_medical_records = """
-                SELECT medical_records_id, name, status, animal_id
-                FROM medical_records
-                LIMIT 500
-                """;
-
-        // Δημιουργούμε μια άδεια λίστα για τα αποτελέσματα.
-        List<MedicalRecords> records = new ArrayList<>();
-
-
-        try (
-Connection connection = DatabaseConnection.getConnection();
-PreparedStatement statement = connection.prepareStatement(sql_medical_records);
-ResultSet resultSet = statement.executeQuery()) {
-
-        // Διαβάζουμε μία-μία τις γραμμές του αποτελέσματος.
-        while (resultSet.next()) {
-
-// Κάθε γραμμή γίνεται ένα νέο Java object.
-MedicalRecords record = new MedicalRecords();
-// Διαβάζουμε το ID του ιατρικού φακέλου.
-                record.setMedicalRecordsId(
-        resultSet.getLong("medical_records_id")
-                );
-                        // Διαβάζουμε το όνομα του ιατρικού φακέλου.
-                        record.setName(resultSet.getString("name"));
-
-        // Διαβάζουμε την κατάσταση του φακέλου.
-        record.setStatus(resultSet.getString("status"));
-                /*
-                 Διαβάζουμε το ID του ζώου.
-                 Χρησιμοποιούμε Long αντί για long επειδή
-                 η στήλη animal_id μπορεί να έχει τιμή NULL.
-                 */
-        record.
-
-setAnimalId(resultSet.getObject("animal_id", Long .class));
-
-        // Προσθέτουμε το αντικείμενο στη λίστα.
-        records.
-
-add(record);
-            }
-                    }
-                    // Επιστρέφουμε τη λίστα με τους ιατρικούς φακέλους.
-                    return records;
+    // Επιστρέφει όλες τις καταγεγραμμένες παθήσεις.
+    public List<MedicalCondition> getAllMedicalConditions()
+            throws SQLException {
+        // TODO
     }
 
-public List<MedicalRecords> getMedicalRecordsByAnimalId(long animalId)
-        throws SQLException {
-
-    // SQL query με παράμετρο για το ID του ζώου.
-    String sql = """
-            SELECT medical_records_id, name, status, animal_id
-            FROM medical_records
-            WHERE animal_id = ?
-            ORDER BY medical_records_id
-            """;
-
-    // Λίστα στην οποία θα αποθηκεύσουμε τα αποτελέσματα.
-    List<MedicalRecords> records = new ArrayList<>();
-
-    // Σύνδεση με τη MySQL και δημιουργία PreparedStatement.
-    try (Connection connection = DatabaseConnection.getConnection();
-         PreparedStatement statement = connection.prepareStatement(sql)) {
-
-        // Δίνουμε τιμή στην πρώτη παράμετρο (?).
-        statement.setLong(1, animalId);
-
-        // Εκτελούμε το SELECT.
-        try (ResultSet resultSet = statement.executeQuery()) {
-
-            // Διαβάζουμε κάθε γραμμή του αποτελέσματος.
-            while (resultSet.next()) {
-
-                // Δημιουργούμε νέο αντικείμενο MedicalRecords.
-                MedicalRecords record = new MedicalRecords();
-
-                // Μεταφέρουμε τις τιμές της MySQL στο αντικείμενο.
-                record.setMedicalRecordsId(
-                        resultSet.getLong("medical_records_id")
-                );
-
-                record.setName(
-                        resultSet.getString("name")
-                );
-
-                record.setStatus(
-                        resultSet.getString("status")
-                );
-
-                record.setAnimalId(
-                        resultSet.getObject("animal_id", Long.class)
-                );
-
-                // Προσθέτουμε το αντικείμενο στη λίστα.
-                records.add(record);
-            }
-        }
+    // Επιστρέφει μία συγκεκριμένη πάθηση βάσει ID.
+    public MedicalCondition getConditionById(long conditionId)
+            throws SQLException {
+        // TODO
     }
 
-    // Επιστρέφουμε τη λίστα με τους φακέλους του ζώου.
-    return records;
- */
-/*
-getAllMedicalConditions()
-getConditionById()
-getConditionsByAnimal()
-getActiveConditionsByAnimal()
-getChronicConditionsByAnimal()
-getResolvedConditionsByAnimal()
-getConditionsByDiagnosisDate()
-getConditionsByStatus()
-getConditionsByName()
+    // Επιστρέφει όλες τις παθήσεις ενός ζώου.
+    public List<MedicalCondition> getConditionsByAnimal(long animalId)
+            throws SQLException {
+        // TODO
+    }
 
-* */
+    // Επιστρέφει τις ενεργές παθήσεις ενός ζώου.
+    public List<MedicalCondition> getActiveConditionsByAnimal(long animalId)
+            throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις χρόνιες παθήσεις ενός ζώου.
+    public List<MedicalCondition> getChronicConditionsByAnimal(long animalId)
+            throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις παθήσεις ενός ζώου που έχουν υποχωρήσει.
+    public List<MedicalCondition> getResolvedConditionsByAnimal(long animalId)
+            throws SQLException {
+        // TODO
+    }
+
+    // Αναζητά παθήσεις βάσει ημερομηνίας διάγνωσης.
+    public List<MedicalCondition> getConditionsByDiagnosisDate(
+            LocalDate diagnosisDate) throws SQLException {
+        // TODO
+    }
+
+    // Αναζητά παθήσεις βάσει κατάστασης.
+    public List<MedicalCondition> getConditionsByStatus(String status)
+            throws SQLException {
+        // TODO
+    }
+
+    // Αναζητά παθήσεις βάσει ονόματος.
+    public List<MedicalCondition> getConditionsByName(String name)
+            throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις παθήσεις που συνδέονται με έναν κτηνίατρο.
+    public List<MedicalCondition> getConditionsByVeterinarian(
+            long veterinarianId) throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις παθήσεις ανά οργανισμό.
+    public List<MedicalCondition> getConditionsByOrganization(
+            long organizationId) throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις παθήσεις ενός συγκεκριμένου ιατρικού φακέλου.
+    public List<MedicalCondition> getConditionsByMedicalRecord(
+            long medicalRecordId) throws SQLException {
+        // TODO
+    }
+
+    // Αναζητά παθήσεις βάσει κλινικής προτεραιότητας.
+    public List<MedicalCondition> getConditionsByClinicalPriority(
+            String priority) throws SQLException {
+        // TODO
+    }
+
+    // Αναζητά παθήσεις βάσει κατάστασης διάγνωσης.
+    public List<MedicalCondition> getConditionsByDiagnosisStatus(
+            String diagnosisStatus) throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις παθήσεις που απαιτούν επανεξέταση.
+    public List<MedicalCondition> getConditionsRequiringFollowup()
+            throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις εκπρόθεσμες επανεξετάσεις.
+    public List<MedicalCondition> getOverdueFollowups()
+            throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις επείγουσες και κρίσιμες περιπτώσεις.
+    public List<MedicalCondition> getEmergencyConditions()
+            throws SQLException {
+        // TODO
+    }
+
+    // Επιστρέφει τις εγγραφές χωρίς κτηνιατρική υπογραφή.
+    public List<MedicalCondition> getUnsignedConditions()
+            throws SQLException {
+        // TODO
+    }
+
+    // Μετρά πόσες παθήσεις έχουν καταγραφεί για ένα ζώο.
+    public long countConditionsByAnimal(long animalId)
+            throws SQLException {
+        // TODO
+    }
+
+    // Μετρά πόσα διαφορετικά ζώα έχουν συγκεκριμένη πάθηση.
+    public long countAnimalsWithCondition(String name)
+            throws SQLException {
+        // TODO
+    }
+
+    // Μετρά όλες τις καταγεγραμμένες παθήσεις.
+    public long countAllConditions()
+            throws SQLException {
+        // TODO
+    }
+
+    // Καταχωρίζει μια νέα πάθηση στη βάση δεδομένων.
+    public void createMedicalCondition(MedicalCondition condition)
+            throws SQLException {
+        // TODO
+    }
+
+    // Ενημερώνει τα στοιχεία μιας υπάρχουσας πάθησης.
+    public void updateMedicalCondition(MedicalCondition condition)
+            throws SQLException {
+        // TODO
+    }
+
+    // Σημειώνει ότι μια πάθηση έχει υποχωρήσει.
+    public void closeMedicalCondition(long conditionId)
+            throws SQLException {
+        // TODO
+    }
+
+    // Αλλάζει την κατάσταση μιας πάθησης.
+    public void updateConditionStatus(long conditionId, String status)
+            throws SQLException {
+        // TODO
+    }
+
+    // Ενημερώνει την ημερομηνία διάγνωσης.
+    public void updateDiagnosisDate(long conditionId, LocalDate date)
+            throws SQLException {
+        // TODO
+    }
+
+    // Προσθέτει νέες παρατηρήσεις σε μια πάθηση.
+    public void addConditionNotes(long conditionId, String notes)
+            throws SQLException {
+        // TODO
+    }
+
+    // Ενημερώνει αν μια πάθηση είναι χρόνια.
+    public void updateChronicStatus(long conditionId, boolean chronic)
+            throws SQLException {
+        // TODO
+    }
+
+    // Ενημερώνει την κλινική προτεραιότητα.
+    public void updateClinicalPriority(long conditionId, String priority)
+            throws SQLException {
+        // TODO
+    }
+
+    // Προγραμματίζει επανεξέταση.
+    public void scheduleFollowup(long conditionId, LocalDateTime date)
+            throws SQLException {
+        // TODO
+    }
+
+    // Καταχωρίζει την κτηνιατρική έγκριση.
+    public void signOffCondition(long conditionId)
+            throws SQLException {
+        // TODO
+    }
+
+    // Διαγράφει μια συγκεκριμένη εγγραφή πάθησης.
+    public void deleteMedicalCondition(long conditionId)
+            throws SQLException {
+        // TODO
+    }
+
+    // Μετατρέπει μια εγγραφή της MySQL σε αντικείμενο MedicalCondition.
+    private MedicalCondition mapMedicalCondition(ResultSet resultSet)
+            throws SQLException {
+        // TODO
+    }
+
+    // Διαβάζει αριθμητικά πεδία που επιτρέπουν NULL.
+    private Long getNullableLong(ResultSet resultSet, String columnName)
+            throws SQLException {
+        // TODO
+    }
+
+    // Διαβάζει boolean πεδία που επιτρέπουν NULL.
+    private Boolean getNullableBoolean(ResultSet resultSet, String columnName)
+            throws SQLException {
+        // TODO
+    }
+
+    // Μετατρέπει SQL DATE σε LocalDate.
+    private LocalDate getDate(ResultSet resultSet, String columnName)
+            throws SQLException {
+        // TODO
+    }
+
+    // Μετατρέπει SQL DATETIME σε LocalDateTime.
+    private LocalDateTime getDateTime(ResultSet resultSet, String columnName)
+            throws SQLException {
+        // TODO
+    }
+}
